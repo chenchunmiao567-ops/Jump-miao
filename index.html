@@ -90,48 +90,92 @@
         }
 
         /* ========================================
-           顶部状态栏 - 清晰性原则
+           顶部状态栏 - Apple 设计原则
            ======================================== */
         
         .header {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: var(--space-24);
-            margin-bottom: var(--space-80);
+            gap: var(--space-20);
+            margin-bottom: var(--space-60);
+            padding: var(--space-40) 0;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: var(--space-16);
+            margin-bottom: var(--space-8);
+        }
+
+        .header-logo {
+            width: 100px;
+            height: 50px;
+            filter: drop-shadow(0 4px 12px rgba(255, 107, 53, 0.4));
+        }
+
+        .lobster-svg {
+            animation: lobster-float 3s ease-in-out infinite;
+        }
+
+        .tennis-svg {
+            animation: tennis-float 3s ease-in-out infinite;
+        }
+
+        @keyframes lobster-float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-3px) rotate(-3deg); }
+        }
+
+        @keyframes tennis-float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-3px) rotate(3deg); }
         }
 
         .header h1 {
-            font-size: 56px;
+            font-size: 48px;
             font-weight: 700;
             background: linear-gradient(180deg, #FFFFFF 0%, #86868B 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             letter-spacing: -0.5px;
-            text-align: center;
             line-height: 1.1;
+            margin: 0;
+        }
+
+        .header-subtitle {
+            font-size: 17px;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-bottom: var(--space-20);
         }
 
         .header .status {
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: var(--space-12);
             font-size: 14px;
-            color: var(--text-secondary);
-            background: rgba(255, 255, 255, 0.08);
-            padding: var(--space-8) var(--space-16);
-            border-radius: var(--radius-full);
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.06);
+            padding: var(--space-8) var(--space-20);
+            border-radius: 20px;  /* 黄金比例圆角 */
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border-subtle);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all var(--duration-normal) var(--ease-standard);
         }
 
         .header .status:hover {
-            background: rgba(255, 255, 255, 0.12);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .status-left {
+            display: flex;
+            align-items: center;
+            gap: var(--space-8);
         }
 
         .status-dot {
@@ -147,28 +191,35 @@
             50% { opacity: 0.5; transform: scale(0.9); }
         }
 
+        .status-divider {
+            width: 1px;
+            height: 16px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
         .refresh-btn {
             background: var(--accent-blue);
             color: white;
             border: none;
             padding: var(--space-8) var(--space-16);
-            border-radius: var(--radius-full);
+            border-radius: 14px;  /* 黄金比例圆角 */
             font-size: 13px;
             font-weight: 500;
             cursor: pointer;
             transition: all var(--duration-fast) var(--ease-smooth);
             display: flex;
             align-items: center;
-            gap: var(--space-4);
+            gap: var(--space-6);
         }
 
         .refresh-btn:hover {
             background: var(--accent-blue-hover);
-            transform: scale(1.05);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(41, 151, 255, 0.3);
         }
 
         .refresh-btn:active {
-            transform: scale(0.98);
+            transform: translateY(0);
         }
 
         /* ========================================
@@ -222,20 +273,50 @@
         }
 
         .commander-avatar {
-            font-size: 88px;
             margin-bottom: var(--space-16);
-            filter: drop-shadow(0 10px 30px rgba(255, 107, 53, 0.4));
+        }
+
+        .commander-avatar svg {
+            width: 120px;
+            height: 60px;
+            filter: drop-shadow(0 4px 12px rgba(255, 107, 53, 0.3));
+        }
+
+        .floating {
             animation: avatar-float 3s var(--ease-standard) infinite;
-            background: linear-gradient(135deg, #FF6B35 0%, #FF8C5A 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        }
+
+        .lobster-icon {
+            animation: lobster-float 2.5s ease-in-out infinite;
+        }
+
+        @keyframes lobster-float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-3px) rotate(-5deg); }
+        }
+
+        .tennis-icon {
+            animation: tennis-float 2.5s ease-in-out infinite;
+        }
+
+        @keyframes tennis-float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-3px) rotate(5deg); }
         }
 
         @keyframes avatar-float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            25% { transform: translateY(-10px) rotate(3deg); }
-            75% { transform: translateY(-10px) rotate(-3deg); }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @keyframes claw-wave {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(12deg); }
+        }
+
+        .claw-animate {
+            animation: claw-wave 2.5s ease-in-out infinite;
+            transform-origin: 145px 85px;
         }
 
         .commander-name {
@@ -268,22 +349,32 @@
         }
 
         /* ========================================
-           Section 通用样式 - 一致性原则
+           Section 通用样式 - Apple 呼吸感设计
            ======================================== */
         
         .section {
             margin-bottom: var(--space-80);
         }
 
-        .section-title {
-            font-size: 32px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: var(--space-32);
+        .section-header {
             display: flex;
             align-items: center;
-            gap: var(--space-12);
+            gap: var(--space-16);
+            margin-bottom: var(--space-28);
+            padding: var(--space-8) var(--space-8);
+        }
+
+        .section-icon {
+            font-size: 32px;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--text-primary);
             letter-spacing: -0.3px;
+            margin: 0;
         }
 
         /* ========================================
@@ -300,7 +391,7 @@
             background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
             border: 1px solid var(--border-subtle);
             border-radius: var(--radius-xl);
-            padding: var(--space-32);
+            padding: var(--space-24) var(--space-28);
             transition: all var(--duration-normal) var(--ease-standard);
             position: relative;
             overflow: hidden;
@@ -432,53 +523,117 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        .agent-detail {
+            display: none;
+            margin-top: var(--space-20);
+            padding-top: var(--space-20);
+            padding-left: var(--space-8);
+            padding-right: var(--space-8);
+            border-top: 1px solid var(--border-subtle);
+            animation: detail-slide var(--duration-normal) var(--ease-smooth);
+            position: relative;
+            z-index: 1;
+        }
+
+        .agent-detail.show {
+            display: block;
+        }
+
+        @keyframes detail-slide {
+            from { opacity: 0; transform: translateY(-12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .detail-item {
             display: flex;
             justify-content: space-between;
-            padding: var(--space-10) 0;
+            padding: var(--space-10) var(--space-16);
             font-size: 12px;
+            border-radius: var(--radius-md);
+            transition: background var(--duration-fast) var(--ease-smooth);
+        }
+
+        .detail-item:hover {
+            background: rgba(255, 255, 255, 0.03);
         }
 
         .detail-label {
             color: var(--text-secondary);
             font-weight: 500;
+            padding-right: var(--space-24);
+            flex-shrink: 0;
         }
 
         .detail-value {
             color: var(--text-primary);
             font-weight: 600;
+            text-align: right;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         /* ========================================
-           任务列表 - 简约性原则
+           任务列表 - 草图设计参考
            ======================================== */
         
         .tasks-section {
             background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
             border: 1px solid var(--border-subtle);
             border-radius: var(--radius-xl);
-            padding: var(--space-32);
+            padding: var(--space-28);
+        }
+
+        .tasks-grid {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-16);
+        }
+
+        .task-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: var(--space-24);
+            cursor: pointer;
+            transition: all var(--duration-normal) var(--ease-standard);
+        }
+
+        .task-card:hover {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(41, 151, 255, 0.2);
+        }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-12);
+        }
+
+        .task-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.2px;
+        }
+
+        .task-expand {
+            font-size: 13px;
+            color: var(--accent-blue-hover);
+            font-weight: 500;
+        }
+
+        .task-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: var(--space-16);
         }
 
         .task-item {
             display: flex;
             align-items: flex-start;
             gap: var(--space-16);
-            padding: var(--space-20) 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            cursor: pointer;
-            transition: all var(--duration-fast) var(--ease-smooth);
-        }
-
-        .task-item:hover {
-            background: rgba(255, 255, 255, 0.02);
-            margin: 0 calc(-1 * var(--space-16));
-            padding: var(--space-20) var(--space-16);
-            border-radius: var(--radius-lg);
-        }
-
-        .task-item:last-child {
-            border-bottom: none;
         }
 
         .task-icon {
@@ -524,33 +679,38 @@
         }
 
         /* ========================================
-           学习记录 - 清晰性原则
+           学习记录 - Apple 卡片设计
            ======================================== */
         
         .learning-section {
             background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
             border: 1px solid var(--border-subtle);
             border-radius: var(--radius-xl);
-            padding: var(--space-32);
+            padding: var(--space-28);
+        }
+
+        .learning-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-16);
+        }
+
+        .learning-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: var(--space-20);
+            transition: all var(--duration-normal) var(--ease-standard);
+        }
+
+        .learning-card:hover {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(41, 151, 255, 0.2);
         }
 
         .learning-item {
             display: flex;
             gap: var(--space-16);
-            padding: var(--space-20) 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            transition: all var(--duration-fast) var(--ease-smooth);
-        }
-
-        .learning-item:hover {
-            background: rgba(255, 255, 255, 0.02);
-            margin: 0 calc(-1 * var(--space-16));
-            padding: var(--space-20) var(--space-16);
-            border-radius: var(--radius-lg);
-        }
-
-        .learning-item:last-child {
-            border-bottom: none;
         }
 
         .learning-time {
@@ -559,6 +719,7 @@
             font-weight: 600;
             min-width: 50px;
             font-family: "SF Mono", "Monaco", monospace;
+            flex-shrink: 0;
         }
 
         .learning-category {
@@ -571,10 +732,12 @@
             font-weight: 600;
             letter-spacing: 0.3px;
             text-transform: uppercase;
+            flex-shrink: 0;
         }
 
         .learning-content {
             flex: 1;
+            min-width: 0; /* 允许文字换行 */
         }
 
         .learning-title {
@@ -583,12 +746,16 @@
             font-weight: 600;
             margin-bottom: var(--space-6);
             letter-spacing: -0.2px;
+            word-wrap: break-word; /* 文字换行 */
+            overflow-wrap: break-word;
         }
 
         .learning-insight {
             font-size: 13px;
             color: var(--text-secondary);
             line-height: 1.6;
+            word-wrap: break-word; /* 文字换行 */
+            overflow-wrap: break-word;
         }
 
         /* ========================================
@@ -599,7 +766,7 @@
             background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
             border: 1px solid var(--border-subtle);
             border-radius: var(--radius-xl);
-            padding: var(--space-32);
+            padding: var(--space-28);
             position: relative;
             overflow: hidden;
         }
@@ -737,14 +904,15 @@
             padding: var(--space-14);
             background: rgba(255, 255, 255, 0.02);
             border-radius: var(--radius-lg);
-            transition: all var(--duration-fast) var(--ease-smooth);
+            transition: all var(--duration-normal) var(--ease-standard);
             border: 1px solid transparent;
         }
 
         .capability-item:hover {
             background: rgba(255, 255, 255, 0.04);
-            border-color: var(--border-subtle);
-            transform: translateX(4px);
+            border-color: rgba(41, 151, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(41, 151, 255, 0.1);
         }
 
         .capability-status {
@@ -892,19 +1060,33 @@
                 padding: var(--space-24) var(--space-12);
             }
 
+            .header-title {
+                gap: var(--space-12);
+            }
+
+            .header-logo {
+                width: 80px;
+                height: 40px;
+            }
+
             .header h1 {
                 font-size: 28px;
                 letter-spacing: 0;
+            }
+
+            .header-subtitle {
+                font-size: 14px;
             }
 
             .header .status {
                 flex-wrap: wrap;
                 justify-content: center;
                 font-size: 13px;
+                padding: var(--space-8) var(--space-16);
             }
 
             .refresh-btn {
-                padding: var(--space-6) var(--space-12);
+                padding: var(--space-8) var(--space-14);
                 font-size: 12px;
                 min-height: 44px; /* 触摸友好 */
             }
@@ -920,9 +1102,9 @@
                 border-radius: var(--radius-xl);
             }
 
-            .commander-avatar {
-                font-size: 56px;
-                margin-bottom: var(--space-12);
+            .commander-avatar svg {
+                width: 100px;
+                height: 50px;
             }
 
             .commander-name {
@@ -941,7 +1123,7 @@
 
             /* Agent 卡片 - 触摸友好 */
             .agent-card {
-                padding: var(--space-20);
+                padding: var(--space-20) var(--space-24);
                 min-height: auto;
             }
 
@@ -961,19 +1143,35 @@
                 font-size: 11px !important;
             }
 
+            .agent-detail {
+                padding-left: var(--space-4);
+                padding-right: var(--space-4);
+            }
+
             .detail-item {
                 font-size: 11px;
-                padding: var(--space-8) 0;
+                padding: var(--space-10) var(--space-12);
+            }
+
+            .detail-label {
+                padding-right: var(--space-20);
             }
 
             /* 任务列表 - 触摸友好 */
             .tasks-section {
-                padding: var(--space-20);
+                padding: var(--space-16);
+            }
+
+            .tasks-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .task-card {
+                padding: var(--space-16);
             }
 
             .task-item {
-                padding: var(--space-16) 0;
-                min-height: 60px; /* 触摸区域 */
+                min-height: 50px; /* 触摸区域 */
             }
 
             .task-icon {
@@ -996,12 +1194,19 @@
 
             /* 学习记录 - 触摸友好 */
             .learning-section {
-                padding: var(--space-20);
+                padding: var(--space-16);
+            }
+
+            .learning-list {
+                gap: var(--space-12);
+            }
+
+            .learning-card {
+                padding: var(--space-16);
             }
 
             .learning-item {
-                padding: var(--space-16) 0;
-                gap: var(--space-10);
+                gap: var(--space-12);
             }
 
             .learning-time {
@@ -1105,10 +1310,56 @@
     <div class="container">
         <!-- 顶部状态栏 -->
         <div class="header">
-            <h1>🚀 Agent 指挥中心</h1>
+            <div class="header-title">
+                <svg viewBox="0 0 100 50" class="header-logo">
+                    <!-- 龙虾图标 (橙色扁平风格) -->
+                    <g class="lobster-svg">
+                        <!-- 身体 -->
+                        <ellipse cx="25" cy="30" rx="12" ry="8" fill="#FF6B35"/>
+                        <!-- 头部 -->
+                        <circle cx="25" cy="20" r="7" fill="#FF6B35"/>
+                        <!-- 眼睛 -->
+                        <circle cx="22" cy="18" r="2" fill="#1a1a2e"/>
+                        <circle cx="28" cy="18" r="2" fill="#1a1a2e"/>
+                        <!-- 触角 -->
+                        <path d="M23 13 Q22 10 21 8" stroke="#FF6B35" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        <path d="M27 13 Q28 10 29 8" stroke="#FF6B35" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                        <!-- 钳子 -->
+                        <path d="M18 28 Q14 26 12 24 Q13 28 16 30" fill="#FF6B35"/>
+                        <path d="M32 28 Q36 26 38 24 Q37 28 34 30" fill="#FF6B35"/>
+                        <!-- 腿 -->
+                        <path d="M20 36 L18 40" stroke="#FF6B35" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M23 37 L23 41" stroke="#FF6B35" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M26 37 L27 41" stroke="#FF6B35" stroke-width="1.5" stroke-linecap="round"/>
+                        <!-- 尾巴 -->
+                        <path d="M25 38 L22 43 L25 41 L28 43 Z" fill="#FF6B35"/>
+                    </g>
+                    
+                    <!-- 网球拍图标 (橙色扁平风格) -->
+                    <g class="tennis-svg">
+                        <!-- 拍面 -->
+                        <circle cx="80" cy="22" r="11" fill="#FF6B35"/>
+                        <!-- 拍线网格 -->
+                        <line x1="80" y1="15" x2="80" y2="29" stroke="#fff" stroke-width="0.8" opacity="0.5"/>
+                        <line x1="73" y1="22" x2="87" y2="22" stroke="#fff" stroke-width="0.8" opacity="0.5"/>
+                        <line x1="75" y1="17" x2="85" y2="27" stroke="#fff" stroke-width="0.8" opacity="0.3"/>
+                        <line x1="85" y1="17" x2="75" y2="27" stroke="#fff" stroke-width="0.8" opacity="0.3"/>
+                        <!-- 拍柄 -->
+                        <rect x="78" y="30" width="4" height="10" rx="1.5" fill="#FF6B35"/>
+                        <!-- 网球 -->
+                        <circle cx="68" cy="35" r="4" fill="#FF6B35"/>
+                        <path d="M66 33 Q68 35 70 33" stroke="#fff" stroke-width="0.8" fill="none" opacity="0.6"/>
+                    </g>
+                </svg>
+                <h1>Agent 指挥中心</h1>
+            </div>
+            <div class="header-subtitle">实时监控 · 智能调度 · 数据可视化</div>
             <div class="status">
-                <span class="status-dot"></span>
-                <span id="runtime">运行中</span>
+                <div class="status-left">
+                    <span class="status-dot"></span>
+                    <span id="runtime">运行中</span>
+                </div>
+                <div class="status-divider"></div>
                 <button class="refresh-btn" onclick="refreshData()">
                     <span>↻</span> 刷新
                 </button>
@@ -1118,7 +1369,46 @@
         <!-- 中央总指挥 -->
         <div class="commander-section">
             <div class="commander-card">
-                <div class="commander-avatar">🦞🎾</div>
+                <div class="commander-avatar">
+                    <svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg" class="floating">
+                        <!-- 龙虾图标 (左侧) -->
+                        <g class="lobster-icon">
+                            <!-- 身体 -->
+                            <ellipse cx="30" cy="35" rx="18" ry="12" fill="#FF6B35"/>
+                            <ellipse cx="30" cy="33" rx="14" ry="9" fill="#FF8C5A"/>
+                            <!-- 头部 -->
+                            <circle cx="30" cy="22" r="10" fill="#FF6B35"/>
+                            <!-- 眼睛 -->
+                            <circle cx="26" cy="20" r="3" fill="#fff"/>
+                            <circle cx="34" cy="20" r="3" fill="#fff"/>
+                            <circle cx="26" cy="20" r="1.5" fill="#1a1a2e"/>
+                            <circle cx="34" cy="20" r="1.5" fill="#1a1a2e"/>
+                            <!-- 触角 -->
+                            <path d="M27 14 Q25 8 23 6" stroke="#FF6B35" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                            <path d="M33 14 Q35 8 37 6" stroke="#FF6B35" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                            <circle cx="23" cy="6" r="1.5" fill="#FF6B35"/>
+                            <circle cx="37" cy="6" r="1.5" fill="#FF6B35"/>
+                            <!-- 钳子 -->
+                            <ellipse cx="16" cy="35" rx="6" ry="5" fill="#FF6B35"/>
+                            <ellipse cx="44" cy="35" rx="6" ry="5" fill="#FF6B35"/>
+                            <!-- 尾巴 -->
+                            <path d="M30 47 L25 54 L30 51 L35 54 Z" fill="#FF6B35"/>
+                        </g>
+                        
+                        <!-- 网球拍图标 (右侧) -->
+                        <g class="tennis-icon">
+                            <!-- 拍面 -->
+                            <circle cx="95" cy="28" r="14" fill="#C1E742" stroke="#fff" stroke-width="1.5"/>
+                            <!-- 拍线 -->
+                            <line x1="95" y1="20" x2="95" y2="36" stroke="#fff" stroke-width="0.8" opacity="0.6"/>
+                            <line x1="87" y1="28" x2="103" y2="28" stroke="#fff" stroke-width="0.8" opacity="0.6"/>
+                            <!-- 拍柄 -->
+                            <rect x="93" y="38" width="4" height="12" fill="#8B4513" rx="1.5"/>
+                            <!-- 网球 -->
+                            <circle cx="82" cy="45" r="4" fill="#C1E742" stroke="#fff" stroke-width="0.8"/>
+                        </g>
+                    </svg>
+                </div>
                 <div class="commander-name">Jump Miao</div>
                 <div class="commander-role">总指挥 · 龙虾网球手 · 你的专属 AI 伙伴</div>
                 <div class="commander-status">
@@ -1130,7 +1420,10 @@
 
         <!-- Agent 卡片 -->
         <div class="section">
-            <div class="section-title">🤖 Agent 团队</div>
+            <div class="section-header">
+                <span class="section-icon">🤖</span>
+                <h2 class="section-title">Agent 团队</h2>
+            </div>
             <div class="agents-grid" id="agents-grid">
                 <!-- 由 JavaScript 动态生成 -->
             </div>
@@ -1138,7 +1431,10 @@
 
         <!-- 任务列表 -->
         <div class="section">
-            <div class="section-title">📋 进行中任务</div>
+            <div class="section-header">
+                <span class="section-icon">📋</span>
+                <h2 class="section-title">进行中的任务</h2>
+            </div>
             <div class="tasks-section" id="tasks-section">
                 <!-- 由 JavaScript 动态生成 -->
             </div>
@@ -1146,7 +1442,10 @@
 
         <!-- 今日学习 -->
         <div class="section">
-            <div class="section-title">📚 今日学习记录</div>
+            <div class="section-header">
+                <span class="section-icon">📚</span>
+                <h2 class="section-title">今日学习记录</h2>
+            </div>
             <div class="learning-section" id="learning-section">
                 <!-- 由 JavaScript 动态生成 -->
             </div>
@@ -1154,7 +1453,10 @@
 
         <!-- 今日精华知识点 (新增) -->
         <div class="section">
-            <div class="section-title">✨ 今日精华知识点</div>
+            <div class="section-header">
+                <span class="section-icon">✨</span>
+                <h2 class="section-title">今日精华知识点</h2>
+            </div>
             <div class="highlights-section" id="highlights-section">
                 <!-- 由 JavaScript 动态生成 -->
             </div>
@@ -1267,31 +1569,41 @@
         // 渲染任务列表
         function renderTasks(tasks) {
             const section = document.getElementById('tasks-section');
-            section.innerHTML = tasks.map(task => `
-                <div class="task-item" onclick="toggleTaskDetail(this)">
-                    <span class="task-icon">${task.icon}</span>
-                    <div class="task-content">
-                        <div class="task-title">${task.title} <span style="font-size: 12px; color: var(--accent-blue-hover); margin-left: 8px; font-weight: 500;">点击查看详情 →</span></div>
-                        <div class="task-desc">${task.desc}</div>
-                    </div>
-                    <div class="task-detail">${task.detail}</div>
+            section.innerHTML = `
+                <div class="tasks-grid">
+                    ${tasks.map(task => `
+                        <div class="task-card" onclick="toggleTaskDetail(this)">
+                            <div class="task-header">
+                                <span class="task-title">${task.title}</span>
+                                <span class="task-expand">点击展开详情 ›</span>
+                            </div>
+                            <div class="task-desc">${task.desc}</div>
+                            <div class="task-detail">${task.detail}</div>
+                        </div>
+                    `).join('')}
                 </div>
-            `).join('');
+            `;
         }
 
         // 渲染学习记录
         function renderLearning(learning) {
             const section = document.getElementById('learning-section');
-            section.innerHTML = learning.map(item => `
-                <div class="learning-item">
-                    <span class="learning-time">${item.time}</span>
-                    <span class="learning-category">${item.category}</span>
-                    <div class="learning-content">
-                        <div class="learning-title">${item.title}</div>
-                        <div class="learning-insight">${item.insight}</div>
-                    </div>
+            section.innerHTML = `
+                <div class="learning-list">
+                    ${learning.map(item => `
+                        <div class="learning-card">
+                            <div class="learning-item">
+                                <span class="learning-time">${item.time}</span>
+                                <span class="learning-category">${item.category}</span>
+                                <div class="learning-content">
+                                    <div class="learning-title">${item.title}</div>
+                                    <div class="learning-insight">${item.insight}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
                 </div>
-            `).join('');
+            `;
         }
 
         // 渲染今日精华
