@@ -17,6 +17,7 @@
             --bg-primary: #000000; --bg-secondary: #1D1D1F; --bg-tertiary: #0D0D0D;
             --text-primary: #FFFFFF; --text-secondary: #86868B;
             --accent-blue: #0071E3; --accent-blue-hover: #2997FF; --accent-green: #30D158;
+            --status-green: #30D158; --status-orange: #FF9500; --status-red: #FF3B30;
             --border-subtle: rgba(255,255,255,0.08); --border-highlight: rgba(41,151,255,0.3);
             --radius-lg: 16px; --radius-xl: 20px; --radius-2xl: 24px; --radius-full: 9999px;
             --space-8: 8px; --space-12: 12px; --space-16: 16px; --space-20: 20px;
@@ -58,11 +59,20 @@
         .section-icon { font-size: 32px; }
         .section-title { font-size: 28px; font-weight: 600; margin: 0; white-space: nowrap; }
 
-        /* Agent 卡片 - Apple 丝滑动画 */
+        /* Agent 卡片 - Apple 丝滑动画 + 呼吸光效 */
         .agents-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: var(--space-28); }
-        .agent-card { background: linear-gradient(180deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-36) var(--space-32); cursor: pointer; transition: all var(--duration-slow) var(--ease-apple); }
+        .agent-card { background: linear-gradient(180deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-36) var(--space-32); cursor: pointer; transition: all var(--duration-slow) var(--ease-apple); position: relative; overflow: hidden; }
+        .agent-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: var(--radius-xl); background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(41,151,255,0.06), transparent 40%); opacity: 0; transition: opacity var(--duration-normal); pointer-events: none; }
+        .agent-card:hover::before { opacity: 1; }
         .agent-card:hover { transform: translateY(-4px); border-color: var(--border-highlight); box-shadow: 0 12px 40px rgba(41,151,255,0.2); }
-        .agent-header { display: flex; align-items: center; gap: var(--space-12); margin-bottom: var(--space-16); }
+        .agent-header { display: flex; align-items: center; gap: var(--space-12); margin-bottom: var(--space-16); position: relative; z-index: 1; }
+        
+        /* 状态指示灯 */
+        .agent-status-lights { display: flex; gap: var(--space-6); margin-top: var(--space-12); }
+        .status-light { width: 8px; height: 8px; border-radius: 50%; background: var(--status-green); transition: all var(--duration-fast) var(--ease-apple); }
+        .status-light.green { background: var(--status-green); box-shadow: 0 0 8px var(--status-green); }
+        .status-light.orange { background: var(--status-orange); box-shadow: 0 0 8px var(--status-orange); }
+        .status-light.red { background: var(--status-red); box-shadow: 0 0 8px var(--status-red); }
         .agent-icon { font-size: 36px; }
         .agent-name { font-size: 18px; font-weight: 600; }
         .agent-status { font-size: 13px; color: var(--text-secondary); margin-bottom: var(--space-20); line-height: 1.5; }
@@ -230,9 +240,26 @@
             Object.values(agents).forEach(agent => {
                 const card = document.createElement('div');
                 card.className = 'agent-card';
+                card.onmousemove = function(e) {
+                    const rect = this.getBoundingClientRect();
+                    this.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
+                    this.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
+                };
                 card.onclick = () => toggleAgentDetail(card);
+                
+                // 根据进度计算状态灯（5 个灯）
+                const lights = [];
+                const lightCount = 5;
+                const greenCount = Math.round((agent.progress / 100) * lightCount);
+                for(let i = 0; i < lightCount; i++) {
+                    if(i < greenCount) lights.push('green');
+                    else if(agent.health === 'stuck') lights.push('red');
+                    else lights.push('orange');
+                }
+                const lightsHtml = lights.map(color => `<div class="status-light ${color}"></div>`).join('');
+                
                 const detailsHtml = Object.entries(agent.details).map(([key,value]) => `<div class="detail-item"><span class="detail-label">${key}</span><span class="detail-value">${value}</span></div>`).join('');
-                card.innerHTML = `<div class="agent-header"><span class="agent-icon">${agent.icon}</span><span class="agent-name">${agent.name}</span></div><div class="agent-status">${agent.status}</div><div class="progress-container"><div class="progress-label"><span>进度</span><span class="progress-value">${agent.progress}%</span></div><div class="progress-bar"><div class="progress-fill" style="width:${agent.progress}%"></div></div></div><div class="agent-detail">${detailsHtml}</div>`;
+                card.innerHTML = `<div class="agent-header"><span class="agent-icon">${agent.icon}</span><span class="agent-name">${agent.name}</span></div><div class="agent-status">${agent.status}</div><div class="progress-container"><div class="progress-label"><span>进度</span><span class="progress-value">${agent.progress}%</span></div><div class="progress-bar"><div class="progress-fill" style="width:${agent.progress}%"></div></div></div><div class="agent-status-lights">${lightsHtml}</div><div class="agent-detail">${detailsHtml}</div>`;
                 grid.appendChild(card);
             });
         }
