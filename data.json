@@ -1,225 +1,39 @@
 {
-  "lastUpdate": "2026-03-20T17:42:00+08:00",
+  "lastUpdate": "2026-03-20T18:15:00+08:00",
   "healthStatus": {
-    "lastCheck": "17:42",
-    "summary": {
-      "healthy": 4,
-      "slow": 1,
-      "stuck": 1
-    }
+    "lastCheck": "18:15",
+    "summary": { "healthy": 4, "slow": 1, "stuck": 1 }
   },
   "agents": {
-    "sentinel-01": {
-      "name": "Sentinel-01",
-      "icon": "🔭",
-      "status": "🔍 监控 DeerFlow 启动状态",
-      "progress": 80,
-      "health": "healthy",
-      "lastUpdate": "17:42",
-      "details": {
-        "监控目标": "DeerFlow 2.0",
-        "状态": "⏳ 等待启动完成",
-        "检查频率": "每 30 秒"
-      }
-    },
-    "dataflow-x": {
-      "name": "DataFlow-X",
-      "icon": "⚡",
-      "status": "📊 分析 ERP 数据结构（并行处理中）",
-      "progress": 47,
-      "health": "stuck",
-      "lastUpdate": "14:30",
-      "details": {
-        "已分析文件": "8 / 17",
-        "总数据量": "约 100 万条",
-        "关键字段": "15 个",
-        "候选产品": "分析中..."
-      }
-    },
-    "creator-7": {
-      "name": "Creator-7",
-      "icon": "🎨",
-      "status": "🎨 Behance 学习参考中",
-      "progress": 75,
-      "health": "healthy",
-      "lastUpdate": "17:42",
-      "details": {
-        "已学习案例": "3 个",
-        "设计规范": "已提取",
-        "优先级": "实战学习"
-      }
-    },
-    "turbo-v": {
-      "name": "Turbo-V",
-      "icon": "🚀",
-      "status": "🎞️ 研究视频效率工具",
-      "progress": 80,
-      "health": "healthy",
-      "lastUpdate": "17:42",
-      "details": {
-        "研究方向": "达芬奇脚本",
-        "优化版本": "v2.0 完成",
-        "安装状态": "待安装"
-      }
-    },
-    "librarian-x": {
-      "name": "Librarian-X",
-      "icon": "📚",
-      "status": "📖 精读《HIG》设计原则章节",
-      "progress": 35,
-      "health": "healthy",
-      "lastUpdate": "17:42",
-      "details": {
-        "书单": "7 本设计经典",
-        "当前任务": "《Human Interface Guidelines》",
-        "输出": "每本书一页精华笔记"
-      }
-    },
-    "editor-pro": {
-      "name": "Editor-Pro",
-      "icon": "🎬",
-      "status": "🎞️ 学习剪辑 6 大原则",
-      "progress": 40,
-      "health": "healthy",
-      "lastUpdate": "17:42",
-      "details": {
-        "学习方向": "达芬奇/PR/剪映 + 叙事节奏",
-        "目标": "产品宣传片/亚马逊视频",
-        "输出": "SOP + 案例库"
-      }
-    }
+    "sentinel-01": { "name": "Sentinel-01", "icon": "🔭", "status": "🔍 监控 DeerFlow 启动状态", "progress": 80, "health": "healthy", "lastUpdate": "18:15", "details": { "监控目标": "DeerFlow 2.0", "状态": "⏳ 等待启动完成", "检查频率": "每 30 秒" } },
+    "dataflow-x": { "name": "DataFlow-X", "icon": "⚡", "status": "📊 分析 ERP 数据结构", "progress": 47, "health": "stuck", "lastUpdate": "14:30", "details": { "已分析文件": "8 / 17", "总数据量": "约 100 万条" } },
+    "creator-7": { "name": "Creator-7", "icon": "🎨", "status": "🎨 Behance 学习参考中", "progress": 75, "health": "healthy", "lastUpdate": "18:15", "details": { "已学习案例": "3 个", "设计规范": "已提取" } },
+    "turbo-v": { "name": "Turbo-V", "icon": "🚀", "status": "🎞️ 研究视频效率工具", "progress": 80, "health": "healthy", "lastUpdate": "18:15", "details": { "研究方向": "达芬奇脚本", "优化版本": "v2.0 完成" } },
+    "librarian-x": { "name": "Librarian-X", "icon": "📚", "status": "📖 精读《HIG》设计原则", "progress": 35, "health": "healthy", "lastUpdate": "18:15", "details": { "书单": "7 本设计经典", "当前任务": "《Human Interface Guidelines》" } },
+    "editor-pro": { "name": "Editor-Pro", "icon": "🎬", "status": "🎞️ 学习剪辑 6 大原则", "progress": 40, "health": "healthy", "lastUpdate": "18:15", "details": { "学习方向": "达芬奇/PR/剪映 + 叙事节奏", "目标": "产品宣传片/亚马逊视频" } }
   },
   "tasks": [
-    {
-      "icon": "📊",
-      "title": "ERP 数据分析",
-      "desc": "已处理 8/17 个 Excel 文件，分析字段结构",
-      "detail": "已分析文件：\n• 家居&***.xlsx (26MB) - 完成\n• 运动&***.xlsx (25MB) - 完成\n• 工业&***.xlsx (21MB) - 完成\n• 宠物用品.xlsx (18MB) - 完成\n• 玩具&***.xlsx (17MB) - 完成\n• 电子产品.xlsx (15MB) - 完成\n• 美妆&***.xlsx (13MB) - 完成\n• 食品&***.xlsx (12MB) - 完成\n\n待分析：9 个文件\n初步筛选：符合标准的产品约 200-300 个"
-    },
-    {
-      "icon": "🎬",
-      "title": "Listing 素材 SOP",
-      "desc": "已收集 15 个 AI 工具，整理使用流程",
-      "detail": "已收集工具：\n• 主图生成：Remove.bg, PhotoRoom\n• 场景图：Midjourney, Stable Diffusion\n• 批量处理：Photoshop AI, Canva\n• 视频生成：Runway, Pika\n• 配音：ElevenLabs, 剪映 AI\n• 文案：Jasper, Copy.ai\n\nSOP 进度：70%"
-    },
-    {
-      "icon": "🎞️",
-      "title": "达芬奇脚本优化",
-      "desc": "v2.0 版本已完成，添加中文注释和错误处理",
-      "detail": "优化内容：\n• 中文注释 - 完成\n• 错误处理 - 完成\n• 交互菜单 - 完成\n• 日志输出 - 完成\n\n文件位置：C:\\Users\\Yoomeng\\.openclaw\\workspace\\达芬奇脚本工具包\\优化版\\"
-    },
-    {
-      "icon": "🦌",
-      "title": "DeerFlow 监控",
-      "desc": "等待 DeerFlow 2.0 启动完成",
-      "detail": "状态：等待启动\n位置：C:\\Users\\Yoomeng\\Desktop\\DeerFlow-Byte\n依赖：npm install 完成\n下一步：npm run dev 测试"
-    },
-    {
-      "icon": "📚",
-      "title": "Apple 设计书籍精读",
-      "desc": "Librarian-X 正在读 7 本经典，提取核心要点",
-      "detail": "书单：\n1. 《Human Interface Guidelines》- 进行中 (35%)\n2. 《The Design of Everyday Things》- 待读\n3. 《Don't Make Me Think》- 待读\n4. 《Thinking with Type》- 待读\n5. 《Laws of UX》- 待读\n6. 《Refactoring UI》- 待读\n7. 《The Apple Way》- 待读"
-    },
-    {
-      "icon": "🎬",
-      "title": "影视剪辑学习",
-      "desc": "Editor-Pro 学习短视频/宣传片策划剪辑",
-      "detail": "学习内容：\n• 剪辑 6 大原则 (情感/故事/节奏/视觉/技术/连贯) - 进行中\n• 达芬奇/PR 高级技巧\n• 短视频 3 秒法则\n• 亚马逊产品视频 SOP\n• 叙事节奏/转场设计"
-    }
+    { "icon": "📊", "title": "ERP 数据分析", "desc": "已处理 8/17 个 Excel 文件，分析字段结构", "detail": "已分析文件：\n• 家居&***.xlsx (26MB) - 完成\n• 运动&***.xlsx (25MB) - 完成\n• 工业&***.xlsx (21MB) - 完成\n• 宠物用品.xlsx (18MB) - 完成\n• 玩具&***.xlsx (17MB) - 完成\n• 电子产品.xlsx (15MB) - 完成\n• 美妆&***.xlsx (13MB) - 完成\n• 食品&***.xlsx (12MB) - 完成\n\n待分析：9 个文件\n初步筛选：符合标准的产品约 200-300 个" },
+    { "icon": "🎬", "title": "Listing 素材 SOP", "desc": "已收集 15 个 AI 工具，整理使用流程", "detail": "已收集工具：\n• 主图生成：Remove.bg, PhotoRoom\n• 场景图：Midjourney, Stable Diffusion\n• 批量处理：Photoshop AI, Canva\n• 视频生成：Runway, Pika\n• 配音：ElevenLabs, 剪映 AI\n• 文案：Jasper, Copy.ai\n\nSOP 进度：70%" },
+    { "icon": "🎞️", "title": "达芬奇脚本优化", "desc": "v2.0 版本已完成，添加中文注释和错误处理", "detail": "优化内容：\n• 中文注释 - 完成\n• 错误处理 - 完成\n• 交互菜单 - 完成\n• 日志输出 - 完成\n\n文件位置：C:\\Users\\Yoomeng\\.openclaw\\workspace\\达芬奇脚本工具包\\优化版\\" },
+    { "icon": "🦌", "title": "DeerFlow 监控", "desc": "等待 DeerFlow 2.0 启动完成", "detail": "状态：等待启动\n位置：C:\\Users\\Yoomeng\\Desktop\\DeerFlow-Byte\n依赖：npm install 完成\n下一步：npm run dev 测试" },
+    { "icon": "📚", "title": "Apple 设计书籍精读", "desc": "Librarian-X 正在读 7 本经典，提取核心要点", "detail": "书单：\n1. 《Human Interface Guidelines》- 进行中 (35%)\n2. 《The Design of Everyday Things》- 待读\n3. 《Don't Make Me Think》- 待读\n4. 《Thinking with Type》- 待读\n5. 《Laws of UX》- 待读\n6. 《Refactoring UI》- 待读\n7. 《The Apple Way》- 待读" },
+    { "icon": "🎬", "title": "影视剪辑学习", "desc": "Editor-Pro 学习短视频/宣传片策划剪辑", "detail": "学习内容：\n• 剪辑 6 大原则 (情感/故事/节奏/视觉/技术/连贯) - 进行中\n• 达芬奇/PR 高级技巧\n• 短视频 3 秒法则\n• 亚马逊产品视频 SOP\n• 叙事节奏/转场设计" }
   ],
   "todayLearning": [
-    {
-      "time": "08:36",
-      "category": "论文",
-      "title": "AgentFactory 自我进化框架",
-      "insight": "将成功任务保存为可执行子代理代码而非文本经验",
-      "source": "arXiv:2603.18000",
-      "url": "https://arxiv.org/abs/2603.18000",
-      "action": "研究咱们的 agent 代码积累机制",
-      "isHighlight": true
-    },
-    {
-      "time": "08:45",
-      "category": "设计",
-      "title": "Apple 设计语言分析",
-      "insight": "极简主义、大量留白、单一焦点、SF Pro 字体",
-      "source": "Apple 官网分析",
-      "action": "Listing 主图只突出一个卖点",
-      "isHighlight": true
-    },
-    {
-      "time": "09:15",
-      "category": "影视",
-      "title": "剪辑 6 大原则",
-      "insight": "情感 > 故事 > 节奏 > 视觉 > 技术 > 连贯",
-      "source": "《In the Blink of an Eye》",
-      "action": "产品视频优先情感传递",
-      "isHighlight": true
-    },
-    {
-      "time": "14:30",
-      "category": "管理",
-      "title": "Agent 高效协作机制",
-      "insight": "异步协作 + 进度汇报 + 任务拆解",
-      "source": "Jump Miao 创建",
-      "action": "建立协作指南文档",
-      "isHighlight": true
-    },
-    {
-      "time": "15:30",
-      "category": "管理",
-      "title": "实战学习优先原则",
-      "insight": "边学边用，不等学完再工作",
-      "source": "用户建议",
-      "action": "调整 Creator-7 学习任务",
-      "isHighlight": false
-    },
-    {
-      "time": "17:30",
-      "category": "成长",
-      "title": "文件版本管理教训",
-      "insight": "修改代码要同步更新数据文件，建立验证机制",
-      "source": "今日经验教训",
-      "action": "创建 verify-deployment.ps1 验证脚本",
-      "isHighlight": false
-    }
+    { "time": "08:36", "category": "论文", "title": "AgentFactory 自我进化框架", "insight": "将成功任务保存为可执行子代理代码而非文本经验", "source": "arXiv:2603.18000", "url": "https://arxiv.org/abs/2603.18000", "action": "研究咱们的 agent 代码积累机制", "isHighlight": true },
+    { "time": "08:45", "category": "设计", "title": "Apple 设计语言分析", "insight": "极简主义、大量留白、单一焦点、SF Pro 字体", "source": "Apple 官网分析", "action": "Listing 主图只突出一个卖点", "isHighlight": true },
+    { "time": "09:15", "category": "影视", "title": "剪辑 6 大原则", "insight": "情感 > 故事 > 节奏 > 视觉 > 技术 > 连贯", "source": "《In the Blink of an Eye》", "action": "产品视频优先情感传递", "isHighlight": true },
+    { "time": "14:30", "category": "管理", "title": "Agent 高效协作机制", "insight": "异步协作 + 进度汇报 + 任务拆解", "source": "Jump Miao 创建", "action": "建立协作指南文档", "isHighlight": true },
+    { "time": "15:30", "category": "管理", "title": "实战学习优先原则", "insight": "边学边用，不等学完再工作", "source": "用户建议", "action": "调整 Creator-7 学习任务", "isHighlight": false },
+    { "time": "17:30", "category": "成长", "title": "文件版本管理教训", "insight": "修改代码要同步更新数据文件，建立验证机制", "source": "今日经验教训", "action": "创建 verify-deployment.ps1 验证脚本", "isHighlight": false }
   ],
   "highlights": [
-    {
-      "icon": "💡",
-      "title": "剪辑 6 大原则",
-      "source": "《In the Blink of an Eye》",
-      "content": "情感 > 故事 > 节奏 > 视觉 > 技术 > 连贯",
-      "action": "产品视频优先保证情感传递"
-    },
-    {
-      "icon": "⚡",
-      "title": "3 秒法则",
-      "source": "短视频研究",
-      "content": "用户 3 秒内不感兴趣就划走",
-      "action": "视频前 3 秒抓住注意力"
-    },
-    {
-      "icon": "🎨",
-      "title": "清晰性原则",
-      "source": "《HIG》",
-      "content": "减少认知负荷，单屏单一核心信息",
-      "action": "Listing 主图文字≤10 字"
-    },
-    {
-      "icon": "📖",
-      "title": "《HIG》金句",
-      "source": "Human Interface Guidelines",
-      "content": "「好的设计是尽可能少的设计」",
-      "action": "删除次要信息，只留最强卖点"
-    },
-    {
-      "icon": "🎬",
-      "title": "Apple 风格 SOP",
-      "source": "设计规范整理",
-      "content": "纯色背景 + 45°角 + 单一卖点 + 柔和阴影",
-      "action": "参考 Apple 官网 iPhone 产品页"
-    }
+    { "icon": "💡", "title": "剪辑 6 大原则", "source": "《In the Blink of an Eye》", "content": "情感 > 故事 > 节奏 > 视觉 > 技术 > 连贯", "action": "产品视频优先保证情感传递" },
+    { "icon": "⚡", "title": "3 秒法则", "source": "短视频研究", "content": "用户 3 秒内不感兴趣就划走", "action": "视频前 3 秒抓住注意力" },
+    { "icon": "🎨", "title": "清晰性原则", "source": "《HIG》", "content": "减少认知负荷，单屏单一核心信息", "action": "Listing 主图文字≤10 字" },
+    { "icon": "📖", "title": "《HIG》金句", "source": "Human Interface Guidelines", "content": "「好的设计是尽可能少的设计」", "action": "删除次要信息，只留最强卖点" },
+    { "icon": "🎬", "title": "Apple 风格 SOP", "source": "设计规范整理", "content": "纯色背景 + 45°角 + 单一卖点 + 柔和阴影", "action": "参考 Apple 官网 iPhone 产品页" }
   ],
   "capabilities": {
     "skills": [

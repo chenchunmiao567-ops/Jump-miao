@@ -5,787 +5,127 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agent 指挥中心</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "PingFang SC", sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", sans-serif;
             background: #000000;
             color: #F5F5F7;
             min-height: 100vh;
             line-height: 1.5;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            background: 
-                radial-gradient(ellipse at 30% 20%, rgba(50, 50, 60, 0.3) 0%, transparent 60%),
-                radial-gradient(ellipse at 70% 80%, rgba(40, 40, 50, 0.2) 0%, transparent 60%),
-                var(--bg-primary);
-            background-attachment: fixed;
         }
-
         :root {
-            --bg-primary: #000000;
-            --bg-secondary: #1D1D1F;
-            --bg-tertiary: #0D0D0D;
-            --text-primary: #FFFFFF;
-            --text-secondary: #86868B;
-            --accent-blue: #0071E3;
-            --accent-blue-hover: #2997FF;
-            --accent-green: #30D158;
-            --border-subtle: rgba(255, 255, 255, 0.08);
-            --radius-lg: 16px;
-            --radius-xl: 20px;
-            --radius-2xl: 24px;
-            --space-8: 8px;
-            --space-12: 12px;
-            --space-16: 16px;
-            --space-20: 20px;
-            --space-24: 24px;
-            --space-28: 28px;
-            --space-32: 32px;
-            --space-36: 36px;
-            --space-40: 40px;
-            --space-60: 60px;
-            --duration-normal: 300ms;
-            --ease-standard: cubic-bezier(0.25, 0.1, 0.25, 1);
-            --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+            --bg-primary: #000000; --bg-secondary: #1D1D1F; --bg-tertiary: #0D0D0D;
+            --text-primary: #FFFFFF; --text-secondary: #86868B;
+            --accent-blue: #0071E3; --accent-blue-hover: #2997FF; --accent-green: #30D158;
+            --border-subtle: rgba(255,255,255,0.08); --border-highlight: rgba(41,151,255,0.3);
+            --radius-lg: 16px; --radius-xl: 20px; --radius-2xl: 24px; --radius-full: 9999px;
+            --space-8: 8px; --space-12: 12px; --space-16: 16px; --space-20: 20px;
+            --space-24: 24px; --space-28: 28px; --space-32: 32px; --space-36: 36px;
+            --space-40: 40px; --space-48: 48px; --space-60: 60px; --space-80: 80px; --space-100: 100px;
+            --duration-normal: 300ms; --ease-standard: cubic-bezier(0.25,0.1,0.25,1);
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: var(--space-60) var(--space-24);
-        }
-
+        .container { max-width: 1200px; margin: 0 auto; padding: var(--space-60) var(--space-40); }
+        
         /* 顶部状态栏 */
-        .header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: var(--space-20);
-            margin-bottom: var(--space-60);
-            padding: var(--space-40) 0;
-        }
+        .header { display: flex; flex-direction: column; align-items: center; gap: var(--space-24); margin-bottom: var(--space-100); padding: var(--space-40) 0; }
+        .header-title h1 { font-size: 48px; font-weight: 700; background: linear-gradient(180deg,#FFFFFF 0%,#86868B 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.5px; margin: 0; }
+        .header-subtitle { font-size: 17px; color: var(--text-secondary); margin-top: 16px; }
+        .header .status { display: inline-flex; align-items: center; gap: var(--space-12); font-size: 14px; background: rgba(255,255,255,0.08); padding: var(--space-10) var(--space-24); border-radius: var(--radius-full); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.15); margin-top: 28px; }
+        .status-dot { width: 8px; height: 8px; background: var(--accent-green); border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.9)} }
+        .status-divider { width: 1px; height: 16px; background: rgba(255,255,255,0.2); }
+        .refresh-btn { background: var(--accent-blue); color: white; border: none; padding: var(--space-8) var(--space-16); border-radius: var(--radius-full); font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: var(--space-6); transition: all var(--duration-normal); }
+        .refresh-btn:hover { background: var(--accent-blue-hover); transform: translateY(-1px); }
 
-        .header-title {
-            display: flex;
-            align-items: center;
-            gap: 0;
-            margin-bottom: var(--space-8);
-        }
+        /* 总指挥卡片 - 圆形图标 */
+        .commander-section { display: flex; justify-content: center; margin-bottom: var(--space-100); }
+        .commander-card { background: linear-gradient(180deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%); border: 1px solid var(--border-subtle); border-radius: var(--radius-2xl); padding: var(--space-40); text-align: center; max-width: 520px; min-height: 360px; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+        .commander-avatar { margin-bottom: var(--space-20); }
+        .commander-avatar-img { width: 140px; height: 140px; object-fit: cover; border-radius: 50%; border: 3px solid rgba(41,151,255,0.3); filter: drop-shadow(0 10px 30px rgba(155,123,199,0.4)); animation: avatar-float 3s infinite; }
+        @keyframes avatar-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+        .commander-name { font-size: 36px; font-weight: 700; margin-bottom: var(--space-8); }
+        .commander-role { font-size: 15px; color: var(--text-secondary); margin-bottom: var(--space-24); line-height: 1.6; }
+        .commander-status { display: inline-flex; align-items: center; gap: var(--space-8); padding: var(--space-8) var(--space-20); background: rgba(41,151,255,0.1); border-radius: var(--radius-full); font-size: 13px; color: var(--accent-blue-hover); border: 1px solid rgba(41,151,255,0.2); }
 
-        .header-title h1 {
-            font-size: 48px;
-            font-weight: 700;
-            background: linear-gradient(180deg, #FFFFFF 0%, #86868B 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -0.5px;
-            line-height: 1.1;
-            margin: 0;
-        }
+        /* Section - 增加呼吸感 */
+        .section { margin-bottom: var(--space-100); }
+        .section-header { display: flex; align-items: center; gap: var(--space-16); margin-bottom: var(--space-36); }
+        .section-icon { font-size: 32px; }
+        .section-title { font-size: 28px; font-weight: 600; margin: 0; white-space: nowrap; }
 
-        .header-subtitle {
-            font-size: 17px;
-            color: var(--text-secondary);
-            font-weight: 400;
-            margin-bottom: var(--space-20);
-        }
+        /* Agent 卡片 */
+        .agents-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: var(--space-28); }
+        .agent-card { background: linear-gradient(180deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-36) var(--space-32); cursor: pointer; transition: all var(--duration-normal) var(--ease-standard); }
+        .agent-card:hover { transform: translateY(-4px); border-color: var(--border-highlight); box-shadow: 0 12px 40px rgba(41,151,255,0.2); }
+        .agent-header { display: flex; align-items: center; gap: var(--space-12); margin-bottom: var(--space-16); }
+        .agent-icon { font-size: 36px; }
+        .agent-name { font-size: 18px; font-weight: 600; }
+        .agent-status { font-size: 13px; color: var(--text-secondary); margin-bottom: var(--space-20); line-height: 1.5; }
+        .progress-bar { height: 6px; background: rgba(255,255,255,0.08); border-radius: var(--radius-full); overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg,var(--accent-blue),var(--accent-blue-hover)); transition: width var(--duration-normal); }
+        .agent-detail { display: none; margin-top: var(--space-20); padding-top: var(--space-20); border-top: 1px solid var(--border-subtle); }
+        .agent-detail.show { display: block; }
+        .detail-item { display: flex; justify-content: space-between; padding: var(--space-10) var(--space-12); font-size: 12px; }
+        .detail-label { color: var(--text-secondary); padding-right: var(--space-24); }
+        .detail-value { color: var(--text-primary); text-align: right; white-space: nowrap; }
 
-        .header .status {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--space-12);
-            font-size: 14px;
-            color: var(--text-primary);
-            background: rgba(255, 255, 255, 0.08);
-            padding: var(--space-10) var(--space-24);
-            border-radius: 24px;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transition: all var(--duration-normal) var(--ease-standard);
-        }
-
-        .header .status:hover {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-        }
-
-        .status-left {
-            display: flex;
-            align-items: center;
-            gap: var(--space-8);
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--accent-green);
-            border-radius: 50%;
-            animation: pulse 2s var(--ease-standard) infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.9); }
-        }
-
-        .status-divider {
-            width: 1px;
-            height: 16px;
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .refresh-btn {
-            background: var(--accent-blue);
-            color: white;
-            border: none;
-            padding: var(--space-8) var(--space-16);
-            border-radius: 14px;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all var(--duration-normal) var(--ease-standard);
-            display: flex;
-            align-items: center;
-            gap: var(--space-6);
-        }
-
-        .refresh-btn:hover {
-            background: var(--accent-blue-hover);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(41, 151, 255, 0.3);
-        }
-
-        /* 中央总指挥卡片 */
-        .commander-section {
-            display: flex;
-            justify-content: center;
-            margin-bottom: var(--space-80);
-        }
-
-        .commander-card {
-            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-2xl);
-            padding: var(--space-40);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-            max-width: 520px;
-            min-height: 340px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 
-                0 0 0 1px rgba(255, 255, 255, 0.05),
-                0 20px 60px rgba(0, 0, 0, 0.5);
-            transition: all var(--duration-normal) var(--ease-standard);
-        }
-
-        .commander-avatar {
-            margin-bottom: var(--space-16);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .commander-avatar-img {
-            width: 120px;
-            height: 120px;
-            object-fit: contain;
-            filter: drop-shadow(0 10px 30px rgba(155, 123, 199, 0.4));
-            animation: avatar-float 3s var(--ease-standard) infinite;
-        }
-
-        .commander-avatar-placeholder {
-            animation: avatar-float 3s var(--ease-standard) infinite;
-        }
-
-        @keyframes avatar-float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-
-        .commander-name {
-            font-size: 36px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: var(--space-8);
-            letter-spacing: -0.5px;
-        }
-
-        .commander-role {
-            font-size: 15px;
-            color: var(--text-secondary);
-            margin-bottom: var(--space-24);
-            font-weight: 400;
-            line-height: 1.6;
-        }
-
-        .commander-status {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--space-8);
-            padding: var(--space-8) var(--space-20);
-            background: rgba(41, 151, 255, 0.1);
-            border-radius: 20px;
-            font-size: 13px;
-            color: var(--accent-blue-hover);
-            font-weight: 500;
-            border: 1px solid rgba(41, 151, 255, 0.2);
-        }
-
-        /* Section 通用样式 */
-        .section {
-            margin-bottom: var(--space-80);
-        }
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: var(--space-16);
-            margin-bottom: var(--space-28);
-            padding: var(--space-8) var(--space-8);
-        }
-
-        .section-icon {
-            font-size: 32px;
-        }
-
-        .section-title {
-            font-size: 28px;
-            font-weight: 600;
-            color: var(--text-primary);
-            letter-spacing: -0.3px;
-            margin: 0;
-        }
-
-        /* Agent 卡片网格 */
-        .agents-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: var(--space-24);
-        }
-
-        .agent-card {
-            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-xl);
-            padding: var(--space-36) var(--space-32);
-            transition: all var(--duration-normal) var(--ease-standard);
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-        }
-
-        .agent-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(41, 151, 255, 0.3);
-            box-shadow: 0 12px 40px rgba(41, 151, 255, 0.2);
-        }
-
-        .agent-header {
-            display: flex;
-            align-items: center;
-            gap: var(--space-12);
-            margin-bottom: var(--space-16);
-        }
-
-        .agent-icon {
-            font-size: 36px;
-        }
-
-        .agent-name {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-primary);
-            letter-spacing: -0.2px;
-        }
-
-        .agent-status {
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-bottom: var(--space-20);
-            line-height: 1.5;
-        }
-
-        .progress-container {
-            margin-top: var(--space-16);
-        }
-
-        .progress-label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-bottom: var(--space-8);
-            font-weight: 500;
-        }
-
-        .progress-value {
-            color: var(--accent-blue-hover);
-            font-weight: 600;
-        }
-
-        .progress-bar {
-            height: 6px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-blue), var(--accent-blue-hover));
-            border-radius: 20px;
-            transition: width var(--duration-normal) var(--ease-standard);
-        }
-
-        .agent-detail {
-            display: none;
-            margin-top: var(--space-20);
-            padding-top: var(--space-20);
-            border-top: 1px solid var(--border-subtle);
-            animation: detail-slide var(--duration-normal) var(--ease-smooth);
-        }
-
-        .agent-detail.show {
-            display: block;
-        }
-
-        @keyframes detail-slide {
-            from { opacity: 0; transform: translateY(-12px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .detail-item {
-            display: flex;
-            justify-content: space-between;
-            padding: var(--space-10) var(--space-12);
-            font-size: 12px;
-        }
-
-        .detail-label {
-            color: var(--text-secondary);
-            font-weight: 500;
-            padding-right: var(--space-24);
-        }
-
-        .detail-value {
-            color: var(--text-primary);
-            font-weight: 600;
-            text-align: right;
-            white-space: nowrap;
-        }
-
-        /* 任务列表 */
-        .tasks-section {
-            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-xl);
-            padding: var(--space-28);
-        }
-
-        .tasks-grid {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-16);
-        }
-
-        .task-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-lg);
-            padding: var(--space-24);
-            cursor: pointer;
-            transition: all var(--duration-normal) var(--ease-standard);
-        }
-
-        .task-card:hover {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(41, 151, 255, 0.4);
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(41, 151, 255, 0.25);
-        }
-
-        .task-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--space-12);
-        }
-
-        .task-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-primary);
-            letter-spacing: -0.2px;
-        }
-
-        .task-expand {
-            font-size: 13px;
-            color: var(--accent-blue-hover);
-            font-weight: 500;
-        }
-
-        .task-desc {
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.5;
-            margin-bottom: var(--space-16);
-        }
-
-        .task-detail {
-            display: none;
-            margin-top: var(--space-16);
-            padding: var(--space-20);
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: var(--radius-lg);
-            font-size: 13px;
-            color: var(--text-secondary);
-            white-space: pre-line;
-            line-height: 1.6;
-        }
-
-        .task-detail.show {
-            display: block;
-        }
+        /* 任务卡片 - 移除点击展开文字，悬停高亮 */
+        .tasks-section { background: linear-gradient(180deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-32); }
+        .tasks-grid { display: flex; flex-direction: column; gap: var(--space-20); }
+        .task-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: var(--space-24); cursor: pointer; transition: all var(--duration-normal); }
+        .task-card:hover { background: rgba(255,255,255,0.04); border-color: var(--border-highlight); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(41,151,255,0.15); }
+        .task-card.active { border-color: var(--accent-blue); box-shadow: 0 0 0 1px rgba(41,151,255,0.3), 0 8px 24px rgba(41,151,255,0.2); }
+        .task-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-12); }
+        .task-title { font-size: 18px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .task-expand { display: none; }
+        .task-desc { font-size: 14px; color: var(--text-secondary); margin-bottom: var(--space-16); }
+        .task-detail { display: none; padding: var(--space-20); background: rgba(255,255,255,0.02); border-radius: var(--radius-lg); font-size: 13px; color: var(--text-secondary); white-space: pre-line; line-height: 1.6; margin-top: var(--space-16); border: 1px solid rgba(41,151,255,0.1); }
+        .task-detail.show { display: block; }
 
         /* 学习记录 */
-        .learning-section {
-            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-xl);
-            padding: var(--space-32) var(--space-40);
-        }
+        .learning-section { background: linear-gradient(180deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-36) var(--space-40); }
+        .learning-list { display: flex; flex-direction: column; gap: var(--space-20); }
+        .learning-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: var(--space-24); transition: all var(--duration-normal); }
+        .learning-card:hover { background: rgba(255,255,255,0.04); border-color: var(--border-highlight); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(41,151,255,0.15); }
+        .learning-item { display: flex; gap: var(--space-16); }
+        .learning-time { font-size: 13px; color: var(--accent-blue-hover); min-width: 50px; font-family: "SF Mono",monospace; }
+        .learning-category { font-size: 11px; padding: var(--space-4) var(--space-12); border-radius: var(--radius-full); background: rgba(41,151,255,0.15); color: var(--accent-blue-hover); height: fit-content; text-transform: uppercase; letter-spacing: 0.5px; }
+        .learning-content { flex: 1; }
+        .learning-title { font-size: 15px; font-weight: 600; margin-bottom: var(--space-6); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .learning-insight { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
 
-        .learning-list {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-16);
-        }
-
-        .learning-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-lg);
-            padding: var(--space-20);
-            transition: all var(--duration-normal) var(--ease-standard);
-        }
-
-        .learning-card:hover {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(41, 151, 255, 0.3);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(41, 151, 255, 0.15);
-        }
-
-        .learning-item {
-            display: flex;
-            gap: var(--space-16);
-        }
-
-        .learning-time {
-            font-size: 13px;
-            color: var(--accent-blue-hover);
-            font-weight: 600;
-            min-width: 50px;
-            font-family: "SF Mono", "Monaco", monospace;
-            flex-shrink: 0;
-        }
-
-        .learning-category {
-            font-size: 11px;
-            padding: var(--space-4) var(--space-10);
-            border-radius: 20px;
-            background: rgba(41, 151, 255, 0.15);
-            color: var(--accent-blue-hover);
-            height: fit-content;
-            font-weight: 600;
-            letter-spacing: 0.3px;
-            text-transform: uppercase;
-            flex-shrink: 0;
-        }
-
-        .learning-content {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .learning-title {
-            font-size: 15px;
-            color: var(--text-primary);
-            font-weight: 600;
-            margin-bottom: var(--space-6);
-            letter-spacing: -0.2px;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-
-        .learning-insight {
-            font-size: 13px;
-            color: var(--text-secondary);
-            line-height: 1.6;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-
-        /* 历史记录 */
-        .highlights-section {
-            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-xl);
-            padding: var(--space-28);
-        }
-
-        .highlights-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: var(--space-20);
-        }
-
-        .highlight-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-lg);
-            padding: var(--space-24);
-            transition: all var(--duration-normal) var(--ease-standard);
-            cursor: pointer;
-        }
-
-        .highlight-card:hover {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(41, 151, 255, 0.3);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(41, 151, 255, 0.1);
-        }
-
-        .highlight-header {
-            display: flex;
-            align-items: center;
-            gap: var(--space-12);
-            margin-bottom: var(--space-16);
-        }
-
-        .highlight-icon {
-            font-size: 24px;
-        }
-
-        .highlight-title {
-            font-size: 15px;
-            color: var(--text-primary);
-            font-weight: 600;
-            letter-spacing: -0.2px;
-        }
-
-        .highlight-source {
-            font-size: 11px;
-            color: var(--text-secondary);
-            margin-left: auto;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-
-        .highlight-content {
-            font-size: 13px;
-            color: var(--text-primary);
-            line-height: 1.6;
-            margin-bottom: var(--space-16);
-            padding: var(--space-16);
-            background: rgba(41, 151, 255, 0.08);
-            border-radius: var(--radius-lg);
-            border-left: 3px solid var(--accent-blue);
-        }
-
-        .highlight-action {
-            display: flex;
-            align-items: flex-start;
-            gap: var(--space-8);
-            font-size: 12px;
-            color: var(--text-secondary);
-            line-height: 1.5;
-        }
-
-        .highlight-action::before {
-            content: '💡';
-            font-size: 14px;
-        }
+        /* 历史精华 - 优化标题和标识 */
+        .highlights-section { background: linear-gradient(180deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-36) var(--space-40); }
+        .highlights-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(320px,1fr)); gap: var(--space-24); }
+        .highlight-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: var(--space-28); cursor: pointer; transition: all var(--duration-normal); }
+        .highlight-card:hover { background: rgba(255,255,255,0.04); border-color: var(--border-highlight); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(41,151,255,0.2); }
+        .highlight-header { display: flex; align-items: center; gap: var(--space-12); margin-bottom: var(--space-20); }
+        .highlight-icon { font-size: 28px; }
+        .highlight-title { font-size: 16px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .highlight-source { font-size: 11px; color: var(--text-secondary); margin-left: auto; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
+        .highlight-content { font-size: 14px; line-height: 1.6; margin-bottom: var(--space-20); padding: var(--space-20); background: linear-gradient(135deg,rgba(41,151,255,0.08) 0%,rgba(41,151,255,0.03) 100%); border-radius: var(--radius-lg); border-left: 4px solid var(--accent-blue); }
+        .highlight-action { display: flex; align-items: flex-start; gap: var(--space-8); font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+        .highlight-action::before { content: '💡'; font-size: 14px; }
 
         /* 能力库 */
-        .capabilities-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: var(--space-24);
-        }
-
-        .capability-card {
-            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-xl);
-            padding: var(--space-28);
-            transition: all var(--duration-normal) var(--ease-standard);
-        }
-
-        .capability-card:hover {
-            transform: translateY(-2px);
-            border-color: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-        }
-
-        .capability-header {
-            display: flex;
-            align-items: center;
-            gap: var(--space-12);
-            margin-bottom: var(--space-24);
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-primary);
-            letter-spacing: -0.2px;
-        }
-
-        .capability-list {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-12);
-        }
-
-        .capability-item {
-            display: flex;
-            align-items: center;
-            gap: var(--space-12);
-            padding: var(--space-14);
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: var(--radius-lg);
-            transition: all var(--duration-normal) var(--ease-standard);
-            border: 1px solid transparent;
-        }
-
-        .capability-item:hover {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(41, 151, 255, 0.3);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(41, 151, 255, 0.1);
-        }
-
-        .capability-status {
-            font-size: 18px;
-        }
-
-        .capability-info {
-            flex: 1;
-        }
-
-        .capability-name {
-            font-size: 14px;
-            color: var(--text-primary);
-            font-weight: 600;
-            margin-bottom: var(--space-4);
-            letter-spacing: -0.2px;
-        }
-
-        .capability-desc {
-            font-size: 12px;
-            color: var(--text-secondary);
-            line-height: 1.4;
-        }
+        .capabilities-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); gap: var(--space-28); }
+        .capability-card { background: linear-gradient(180deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-32); transition: all var(--duration-normal); }
+        .capability-card:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.15); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+        .capability-header { display: flex; align-items: center; gap: var(--space-12); margin-bottom: var(--space-24); font-size: 18px; font-weight: 600; }
+        .capability-list { display: flex; flex-direction: column; gap: var(--space-12); }
+        .capability-item { display: flex; align-items: center; gap: var(--space-12); padding: var(--space-14); background: rgba(255,255,255,0.02); border-radius: var(--radius-lg); transition: all var(--duration-normal); }
 
         /* 底部 */
-        .footer {
-            margin-top: var(--space-60);
-            text-align: center;
-            font-size: 13px;
-            color: var(--text-secondary);
-            padding-top: var(--space-32);
-            border-top: 1px solid var(--border-subtle);
-        }
-
-        .footer p {
-            margin-bottom: var(--space-8);
-        }
-
-        /* 加载动画 */
-        .loading {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-            border: 2px solid rgba(255, 255, 255, 0.15);
-            border-top-color: var(--accent-blue-hover);
-            border-radius: 50%;
-            animation: spin 1s var(--ease-standard) linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        .footer { margin-top: var(--space-80); text-align: center; font-size: 13px; color: var(--text-secondary); padding-top: var(--space-40); border-top: 1px solid var(--border-subtle); }
 
         /* 响应式 */
         @media (max-width: 768px) {
-            .container {
-                padding: var(--space-32) var(--space-16);
-            }
-
-            .header h1 {
-                font-size: 36px;
-            }
-
-            .section-title {
-                font-size: 24px;
-            }
-
-            .commander-card {
-                padding: var(--space-24);
-                min-height: 280px;
-            }
-
-            .commander-avatar-img {
-                width: 100px;
-                height: 100px;
-            }
-
-            .commander-name {
-                font-size: 28px;
-            }
-
-            .agents-grid,
-            .capabilities-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 480px) {
-            :root {
-                --space-60: var(--space-40);
-                --space-80: var(--space-48);
-            }
-
-            .header h1 {
-                font-size: 28px;
-            }
-
-            .section-title {
-                font-size: 20px;
-            }
-
-            .commander-card {
-                padding: var(--space-20);
-            }
-
-            .commander-avatar-img {
-                width: 80px;
-                height: 80px;
-            }
+            .container { padding: var(--space-40) var(--space-20); }
+            .header h1 { font-size: 36px; }
+            .section-title { font-size: 24px; }
+            .commander-card { padding: var(--space-24); }
+            .commander-avatar-img { width: 100px; height: 100px; }
+            .agents-grid, .capabilities-grid, .highlights-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -793,280 +133,144 @@
     <div class="container">
         <!-- 顶部状态栏 -->
         <div class="header">
-            <div class="header-title">
-                <h1>Agent 指挥中心</h1>
-            </div>
-            <div class="header-subtitle" style="margin-top: 16px;">实时监控 · 智能调度 · 数据可视化</div>
-            <div class="status" style="margin-top: 28px;">
-                <div class="status-left">
-                    <span class="status-dot"></span>
-                    <span id="runtime">运行中</span>
-                </div>
+            <div class="header-title"><h1>Agent 指挥中心</h1></div>
+            <div class="header-subtitle">实时监控 · 智能调度 · 数据可视化</div>
+            <div class="status">
+                <div class="status-left"><span class="status-dot"></span><span id="runtime">运行中</span></div>
                 <div class="status-divider"></div>
-                <button class="refresh-btn" onclick="refreshData()">
-                    <span>↻</span> 刷新
-                </button>
+                <button class="refresh-btn" onclick="refreshData()">↻ 刷新</button>
             </div>
         </div>
 
-        <!-- 中央总指挥 -->
+        <!-- 总指挥卡片 -->
         <div class="commander-section">
             <div class="commander-card">
                 <div class="commander-avatar">
-                    <img src="https://chenchunmiao567-ops.github.io/Jump-miao/lobster-3d.png" alt="Jump Miao 龙虾网球手" class="commander-avatar-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"/>
-                    <div class="commander-avatar-placeholder" style="display:none; font-size:88px;">🦞🎾</div>
+                    <img src="https://chenchunmiao567-ops.github.io/Jump-miao/lobster-3d.png" alt="Jump Miao" class="commander-avatar-img" onerror="this.style.display='none'"/>
                 </div>
                 <div class="commander-name">Jump Miao</div>
                 <div class="commander-role">总指挥 · 龙虾网球手 · 你的专属 AI 伙伴</div>
-                <div class="commander-status">
-                    <span class="status-dot"></span>
-                    <span>在线陪你工作</span>
-                </div>
+                <div class="commander-status"><span class="status-dot"></span><span>在线陪你工作</span></div>
             </div>
         </div>
 
         <!-- Agent 卡片 -->
         <div class="section">
-            <div class="section-header">
-                <span class="section-icon">🤖</span>
-                <h2 class="section-title">Agent 团队</h2>
-            </div>
+            <div class="section-header"><span class="section-icon">🤖</span><h2 class="section-title">Agent 团队</h2></div>
             <div class="agents-grid" id="agents-grid"></div>
         </div>
 
         <!-- 任务列表 -->
         <div class="section">
-            <div class="section-header">
-                <span class="section-icon">📋</span>
-                <h2 class="section-title">进行中的任务</h2>
-            </div>
+            <div class="section-header"><span class="section-icon">📋</span><h2 class="section-title">进行中的任务</h2></div>
             <div class="tasks-section" id="tasks-section"></div>
         </div>
 
         <!-- 今日学习 -->
         <div class="section">
-            <div class="section-header">
-                <span class="section-icon">📚</span>
-                <h2 class="section-title">今日学习记录</h2>
-            </div>
+            <div class="section-header"><span class="section-icon">📚</span><h2 class="section-title">今日学习记录</h2></div>
             <div class="learning-section" id="learning-section"></div>
         </div>
 
-        <!-- 历史记录 -->
+        <!-- 历史精华 -->
         <div class="section">
-            <div class="section-header">
-                <span class="section-icon">✨</span>
-                <h2 class="section-title">历史精华知识点</h2>
-            </div>
+            <div class="section-header"><span class="section-icon">✨</span><h2 class="section-title">历史精华知识点</h2></div>
             <div class="highlights-section" id="highlights-section"></div>
         </div>
 
         <!-- 能力库 -->
         <div class="section">
-            <div class="section-header">
-                <span class="section-icon">🛠️</span>
-                <h2 class="section-title">能力 & 资源</h2>
-            </div>
+            <div class="section-header"><span class="section-icon">🛠️</span><h2 class="section-title">能力 & 资源</h2></div>
             <div class="capabilities-grid">
-                <div class="capability-card">
-                    <div class="capability-header">
-                        <span>⚡</span>
-                        <span>核心技能</span>
-                    </div>
-                    <div class="capability-list" id="skills-list"></div>
-                </div>
-                <div class="capability-card">
-                    <div class="capability-header">
-                        <span>📦</span>
-                        <span>资源库</span>
-                    </div>
-                    <div class="capability-list" id="resources-list"></div>
-                </div>
+                <div class="capability-card"><div class="capability-header"><span>⚡</span><span>核心技能</span></div><div class="capability-list" id="skills-list"></div></div>
+                <div class="capability-card"><div class="capability-header"><span>📦</span><span>资源库</span></div><div class="capability-list" id="resources-list"></div></div>
             </div>
         </div>
 
         <!-- 底部 -->
-        <div class="footer">
-            <p>最后更新：<span id="last-update">--:--:--</span></p>
-            <p style="margin-top: 8px;">🤖 Jump Miao · Agent 团队</p>
-        </div>
+        <div class="footer"><p>最后更新：<span id="last-update">--:--:--</span></p><p style="margin-top:8px;">🤖 Jump Miao · Agent 团队</p></div>
     </div>
 
     <script>
         let dashboardData = null;
-
-        function updateTime() {
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString('zh-CN', { hour12: false, hour: '2-digit', minute: '2-digit' });
-            document.getElementById('last-update').textContent = timeStr;
-        }
-
-        function toggleAgentDetail(card) {
-            const detail = card.querySelector('.agent-detail');
-            if (detail) {
+        function updateTime() { const now = new Date(); document.getElementById('last-update').textContent = now.toLocaleTimeString('zh-CN', {hour12:false,hour:'2-digit',minute:'2-digit'}); }
+        
+        function toggleAgentDetail(card) { const detail = card.querySelector('.agent-detail'); if(detail) detail.classList.toggle('show'); }
+        
+        function toggleTaskDetail(card) {
+            // 关闭所有其他展开的详情
+            document.querySelectorAll('.task-detail.show').forEach(d => {
+                if(d !== card.querySelector('.task-detail')) d.classList.remove('show');
+            });
+            document.querySelectorAll('.task-card.active').forEach(c => {
+                if(c !== card) c.classList.remove('active');
+            });
+            // 切换当前卡片
+            const detail = card.querySelector('.task-detail');
+            if(detail) {
                 detail.classList.toggle('show');
+                card.classList.toggle('active');
             }
         }
-
-        function toggleTaskDetail(item) {
-            const detail = item.querySelector('.task-detail');
-            if (detail) {
-                detail.classList.toggle('show');
+        
+        // 鼠标离开时关闭详情
+        document.addEventListener('mouseleave', function(e) {
+            if(e.target.closest('.task-card')) {
+                document.querySelectorAll('.task-detail.show').forEach(d => d.classList.remove('show'));
+                document.querySelectorAll('.task-card.active').forEach(c => c.classList.remove('active'));
             }
-        }
+        });
 
         function renderAgents(agents) {
             const grid = document.getElementById('agents-grid');
             grid.innerHTML = '';
-            
             Object.values(agents).forEach(agent => {
                 const card = document.createElement('div');
                 card.className = 'agent-card';
                 card.onclick = () => toggleAgentDetail(card);
-                
-                const detailsHtml = Object.entries(agent.details)
-                    .map(([key, value]) => `
-                        <div class="detail-item">
-                            <span class="detail-label">${key}</span>
-                            <span class="detail-value">${value}</span>
-                        </div>
-                    `).join('');
-                
-                card.innerHTML = `
-                    <div class="agent-header">
-                        <span class="agent-icon">${agent.icon}</span>
-                        <span class="agent-name">${agent.name}</span>
-                    </div>
-                    <div class="agent-status">${agent.status}</div>
-                    <div class="progress-container">
-                        <div class="progress-label">
-                            <span>进度</span>
-                            <span class="progress-value">${agent.progress}%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${agent.progress}%"></div>
-                        </div>
-                    </div>
-                    <div class="agent-detail">
-                        ${detailsHtml}
-                    </div>
-                `;
+                const detailsHtml = Object.entries(agent.details).map(([key,value]) => `<div class="detail-item"><span class="detail-label">${key}</span><span class="detail-value">${value}</span></div>`).join('');
+                card.innerHTML = `<div class="agent-header"><span class="agent-icon">${agent.icon}</span><span class="agent-name">${agent.name}</span></div><div class="agent-status">${agent.status}</div><div class="progress-container"><div class="progress-label"><span>进度</span><span class="progress-value">${agent.progress}%</span></div><div class="progress-bar"><div class="progress-fill" style="width:${agent.progress}%"></div></div></div><div class="agent-detail">${detailsHtml}</div>`;
                 grid.appendChild(card);
             });
         }
 
         function renderTasks(tasks) {
             const section = document.getElementById('tasks-section');
-            section.innerHTML = `
-                <div class="tasks-grid">
-                    ${tasks.map(task => `
-                        <div class="task-card" onclick="toggleTaskDetail(this)">
-                            <div class="task-header">
-                                <span class="task-title">${task.title}</span>
-                                <span class="task-expand">点击展开 ›</span>
-                            </div>
-                            <div class="task-desc">${task.desc}</div>
-                            <div class="task-detail">${task.detail}</div>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
+            section.innerHTML = `<div class="tasks-grid">${tasks.map(task => `<div class="task-card" onclick="toggleTaskDetail(this)"><div class="task-header"><span class="task-title">${task.title}</span></div><div class="task-desc">${task.desc}</div><div class="task-detail">${task.detail}</div></div>`).join('')}</div>`;
         }
 
         function renderLearning(learning) {
             const section = document.getElementById('learning-section');
-            section.innerHTML = `
-                <div class="learning-list">
-                    ${learning.map(item => `
-                        <div class="learning-card">
-                            <div class="learning-item">
-                                <span class="learning-time">${item.time}</span>
-                                <span class="learning-category">${item.category}</span>
-                                <div class="learning-content">
-                                    <div class="learning-title">${item.title}</div>
-                                    <div class="learning-insight">${item.insight}</div>
-                                </div>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
+            section.innerHTML = `<div class="learning-list">${learning.map(item => `<div class="learning-card"><div class="learning-item"><span class="learning-time">${item.time}</span><span class="learning-category">${item.category}</span><div class="learning-content"><div class="learning-title">${item.title}</div><div class="learning-insight">${item.insight}</div></div></div></div>`).join('')}</div>`;
         }
 
         function renderHighlights(highlights) {
             const section = document.getElementById('highlights-section');
-            if (!highlights || highlights.length === 0) {
-                section.innerHTML = '<p style="color: var(--text-secondary); text-align: center; padding: var(--space-40);">暂无历史精华记录</p>';
-                return;
-            }
-            section.innerHTML = `
-                <div class="highlights-grid">
-                    ${highlights.map(item => `
-                        <div class="highlight-card">
-                            <div class="highlight-header">
-                                <span class="highlight-icon">${item.icon}</span>
-                                <span class="highlight-title">${item.title}</span>
-                                <span class="highlight-source">${item.source}</span>
-                            </div>
-                            <div class="highlight-content">${item.content}</div>
-                            <div class="highlight-action">${item.action}</div>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
+            if(!highlights || highlights.length === 0) { section.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:var(--space-40);">暂无历史精华记录</p>'; return; }
+            section.innerHTML = `<div class="highlights-grid">${highlights.map(item => `<div class="highlight-card"><div class="highlight-header"><span class="highlight-icon">${item.icon}</span><span class="highlight-title">${item.title}</span><span class="highlight-source">${item.source}</span></div><div class="highlight-content">${item.content}</div><div class="highlight-action">${item.action}</div></div>`).join('')}</div>`;
         }
 
         function renderCapabilities(capabilities) {
-            const skillsList = document.getElementById('skills-list');
-            const resourcesList = document.getElementById('resources-list');
-            
-            skillsList.innerHTML = capabilities.skills.map(skill => `
-                <div class="capability-item">
-                    <span class="capability-status">${skill.status}</span>
-                    <div class="capability-info">
-                        <div class="capability-name">${skill.name}</div>
-                        <div class="capability-desc">${skill.desc}</div>
-                    </div>
-                </div>
-            `).join('');
-            
-            resourcesList.innerHTML = capabilities.resources.map(resource => `
-                <div class="capability-item">
-                    <span class="capability-status">${resource.status}</span>
-                    <div class="capability-info">
-                        <div class="capability-name">${resource.name}</div>
-                        <div class="capability-desc">${resource.desc}</div>
-                    </div>
-                </div>
-            `).join('');
+            document.getElementById('skills-list').innerHTML = capabilities.skills.map(skill => `<div class="capability-item"><span class="capability-status">${skill.status}</span><div class="capability-info"><div class="capability-name">${skill.name}</div><div class="capability-desc">${skill.desc}</div></div></div>`).join('');
+            document.getElementById('resources-list').innerHTML = capabilities.resources.map(resource => `<div class="capability-item"><span class="capability-status">${resource.status}</span><div class="capability-info"><div class="capability-name">${resource.name}</div><div class="capability-desc">${resource.desc}</div></div></div>`).join('');
         }
 
         async function refreshData() {
             updateTime();
-            
             const btn = document.querySelector('.refresh-btn');
             btn.innerHTML = '<span class="loading"></span> 刷新中';
-            
             try {
-                const response = await fetch('data.json?t=' + Date.now());
+                const response = await fetch('data.json?t='+Date.now());
                 dashboardData = await response.json();
-                
                 renderAgents(dashboardData.agents);
                 renderTasks(dashboardData.tasks);
                 renderLearning(dashboardData.todayLearning);
                 renderHighlights(dashboardData.highlights);
                 renderCapabilities(dashboardData.capabilities);
-                
                 console.log('✅ 数据已更新:', dashboardData.lastUpdate);
-            } catch (error) {
-                console.error('❌ 加载数据失败:', error);
-            }
-            
-            setTimeout(() => {
-                btn.innerHTML = '<span>↻</span> 刷新';
-            }, 500);
+            } catch(error) { console.error('❌ 加载数据失败:', error); }
+            setTimeout(() => { btn.innerHTML = '↻ 刷新'; }, 500);
         }
-
         updateTime();
         refreshData();
         setInterval(refreshData, 30000);
