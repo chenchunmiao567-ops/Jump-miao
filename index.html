@@ -6,86 +6,84 @@
     <title>Agent 指挥中心</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", sans-serif;
-            background: #000000;
-            color: #F5F5F7;
-            min-height: 100vh;
-            line-height: 1.5;
-        }
+        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", sans-serif; background: #000000; color: #F5F5F7; min-height: 100vh; line-height: 1.5; }
         :root {
             --bg-primary: #000000; --bg-secondary: #1D1D1F; --bg-tertiary: #0D0D0D;
             --text-primary: #FFFFFF; --text-secondary: #86868B;
-            --accent-blue: #0071E3; --accent-blue-hover: #2997FF; --accent-green: #30D158;
+            --accent-blue: #0071E3; --accent-blue-hover: #2997FF;
             --status-green: #30D158; --status-orange: #FF9500; --status-red: #FF3B30;
             --border-subtle: rgba(255,255,255,0.08); --border-highlight: rgba(41,151,255,0.3);
             --radius-lg: 16px; --radius-xl: 20px; --radius-2xl: 24px; --radius-full: 9999px;
             --space-8: 8px; --space-12: 12px; --space-16: 16px; --space-20: 20px;
             --space-24: 24px; --space-28: 28px; --space-32: 32px; --space-36: 36px;
-            --space-40: 40px; --space-48: 48px; --space-60: 60px; --space-80: 80px; --space-100: 100px;
+            --space-40: 40px; --space-60: 60px; --space-80: 80px; --space-100: 100px;
             --duration-fast: 200ms; --duration-normal: 350ms; --duration-slow: 500ms;
             --ease-apple: cubic-bezier(0.25,0.1,0.25,1);
-            --ease-smooth: cubic-bezier(0.4,0,0.2,1);
         }
         .container { max-width: 1200px; margin: 0 auto; padding: var(--space-60) var(--space-40); }
-        
-        /* 顶部状态栏 - 移到 Agent 卡片上方 */
         .header { display: flex; flex-direction: column; align-items: center; gap: var(--space-24); margin-bottom: var(--space-60); padding: var(--space-40) 0; }
         .header-title h1 { font-size: 48px; font-weight: 700; background: linear-gradient(180deg,#FFFFFF 0%,#86868B 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.5px; margin: 0; }
-        .header-subtitle { font-size: 17px; color: var(--text-secondary); margin-top: 16px; }
+        .header-subtitle { font-size: 17px; color: var(--text-secondary); margin-top: 16px; text-align: center; }
         
-        /* 状态胶囊 - 独立显示 */
-        .status-bar { display: flex; justify-content: center; gap: var(--space-16); margin-bottom: var(--space-80); }
-        .status-capsule { display: inline-flex; align-items: center; gap: var(--space-12); font-size: 14px; background: rgba(255,255,255,0.08); padding: var(--space-10) var(--space-24); border-radius: var(--radius-full); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.15); }
-        .status-dot { width: 8px; height: 8px; background: var(--accent-green); border-radius: 50%; animation: pulse 2s infinite; }
-        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.9)} }
-        .status-divider { width: 1px; height: 16px; background: rgba(255,255,255,0.2); }
-        .refresh-btn { background: var(--accent-blue); color: white; border: none; padding: var(--space-8) var(--space-16); border-radius: var(--radius-full); font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: var(--space-6); transition: all var(--duration-fast) var(--ease-apple); }
-        .refresh-btn:hover { background: var(--accent-blue-hover); transform: translateY(-1px); }
-
-        /* 总指挥卡片 - 圆形图标 */
+        /* 呼吸状态线 */
+        .status-line-container { display: flex; justify-content: center; align-items: center; gap: var(--space-16); margin: var(--space-24) 0 var(--space-60); }
+        .status-line { width: 120px; height: 2px; background: linear-gradient(90deg, transparent, var(--status-green), transparent); border-radius: var(--radius-full); animation: status-line-pulse 3s infinite; }
+        @keyframes status-line-pulse { 0%,100%{opacity:0.3;box-shadow:0 0 4px var(--status-green)} 50%{opacity:1;box-shadow:0 0 12px var(--status-green)} }
+        .status-line.orange { background: linear-gradient(90deg, transparent, var(--status-orange), transparent); }
+        .status-line.orange { animation-name: status-line-pulse-orange; }
+        @keyframes status-line-pulse-orange { 0%,100%{opacity:0.3;box-shadow:0 0 4px var(--status-orange)} 50%{opacity:1;box-shadow:0 0 12px var(--status-orange)} }
+        .status-line.red { background: linear-gradient(90deg, transparent, var(--status-red), transparent); }
+        .status-line.red { animation-name: status-line-pulse-red; }
+        @keyframes status-line-pulse-red { 0%,100%{opacity:0.3;box-shadow:0 0 4px var(--status-red)} 50%{opacity:1;box-shadow:0 0 12px var(--status-red)} }
+        .refresh-btn { background: rgba(255,255,255,0.08); color: var(--text-primary); border: 1px solid rgba(255,255,255,0.15); padding: var(--space-8) var(--space-16); border-radius: var(--radius-full); font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: var(--space-6); transition: all var(--duration-fast); backdrop-filter: blur(20px); }
+        .refresh-btn:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.25); transform: translateY(-1px); }
         .commander-section { display: flex; justify-content: center; margin-bottom: var(--space-100); }
         .commander-card { background: linear-gradient(180deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%); border: 1px solid var(--border-subtle); border-radius: var(--radius-2xl); padding: var(--space-40); text-align: center; max-width: 520px; min-height: 360px; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
         .commander-avatar { margin-bottom: var(--space-20); }
-        .commander-avatar-img { width: 140px; height: 140px; object-fit: cover; border-radius: 50%; border: 3px solid rgba(41,151,255,0.3); filter: drop-shadow(0 10px 30px rgba(155,123,199,0.4)); animation: avatar-float 3s var(--ease-apple) infinite; }
+        .commander-avatar-img { width: 140px; height: 140px; object-fit: cover; border-radius: 50%; border: 3px solid rgba(41,151,255,0.3); filter: drop-shadow(0 10px 30px rgba(155,123,199,0.4)); animation: avatar-float 3s infinite; }
         @keyframes avatar-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
         .commander-name { font-size: 36px; font-weight: 700; margin-bottom: var(--space-8); }
         .commander-role { font-size: 15px; color: var(--text-secondary); margin-bottom: var(--space-24); line-height: 1.6; }
         .commander-status { display: inline-flex; align-items: center; gap: var(--space-8); padding: var(--space-8) var(--space-20); background: rgba(41,151,255,0.1); border-radius: var(--radius-full); font-size: 13px; color: var(--accent-blue-hover); border: 1px solid rgba(41,151,255,0.2); }
-
-        /* Section - 呼吸感 */
         .section { margin-bottom: var(--space-100); }
         .section-header { display: flex; align-items: center; gap: var(--space-16); margin-bottom: var(--space-36); }
         .section-icon { font-size: 32px; }
         .section-title { font-size: 28px; font-weight: 600; margin: 0; white-space: nowrap; }
-
-        /* Agent 卡片 - Apple 丝滑动画 + 呼吸光效 */
-        .agents-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: var(--space-28); }
-        .agent-card { background: linear-gradient(180deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-36) var(--space-32); cursor: pointer; transition: all var(--duration-slow) var(--ease-apple); position: relative; overflow: hidden; }
-        .agent-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: var(--radius-xl); background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(41,151,255,0.06), transparent 40%); opacity: 0; transition: opacity var(--duration-normal); pointer-events: none; }
-        .agent-card:hover::before { opacity: 1; }
-        .agent-card:hover { transform: translateY(-4px); border-color: var(--border-highlight); box-shadow: 0 12px 40px rgba(41,151,255,0.2); }
-        .agent-header { display: flex; align-items: center; gap: var(--space-12); margin-bottom: var(--space-16); position: relative; z-index: 1; }
         
-        /* 状态指示灯 */
-        .agent-status-lights { display: flex; gap: var(--space-6); margin-top: var(--space-12); }
-        .status-light { width: 8px; height: 8px; border-radius: 50%; background: var(--status-green); transition: all var(--duration-fast) var(--ease-apple); }
-        .status-light.green { background: var(--status-green); box-shadow: 0 0 8px var(--status-green); }
-        .status-light.orange { background: var(--status-orange); box-shadow: 0 0 8px var(--status-orange); }
-        .status-light.red { background: var(--status-red); box-shadow: 0 0 8px var(--status-red); }
+        /* Agent 卡片 - 呼吸光效 + 状态灯 + 龙虾徽章 */
+        .agents-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(320px,1fr)); gap: var(--space-28); }
+        .agent-card { background: linear-gradient(180deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-32); cursor: pointer; transition: all var(--duration-slow) var(--ease-apple); position: relative; overflow: hidden; }
+        .agent-card::before { content: ''; position: absolute; top: -50%; left: -50%; right: -50%; bottom: -50%; background: radial-gradient(circle, var(--breath-color) 0%, transparent 70%); opacity: 0.08; animation: breath 3s infinite; pointer-events: none; }
+        @keyframes breath { 0%,100%{opacity:0.05;transform:scale(1)} 50%{opacity:0.12;transform:scale(1.05)} }
+        .agent-card:hover { transform: translateY(-4px); border-color: var(--border-highlight); box-shadow: 0 12px 40px rgba(41,151,255,0.2); }
+        .agent-card-content { position: relative; z-index: 1; }
+        .agent-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: var(--space-16); }
+        .agent-name-group { display: flex; align-items: center; gap: var(--space-12); }
         .agent-icon { font-size: 36px; }
         .agent-name { font-size: 18px; font-weight: 600; }
-        .agent-status { font-size: 13px; color: var(--text-secondary); margin-bottom: var(--space-20); line-height: 1.5; }
+        .agent-status { font-size: 13px; color: var(--text-secondary); margin-bottom: var(--space-20); line-height: 1.5; min-height: 40px; }
+        .agent-status-lights { display: flex; gap: var(--space-6); }
+        .status-light { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: all var(--duration-fast); }
+        .status-light.active { background: var(--status-green); box-shadow: 0 0 8px var(--status-green); }
+        .status-light.orange { background: var(--status-orange); box-shadow: 0 0 8px var(--status-orange); }
+        .status-light.red { background: var(--status-red); box-shadow: 0 0 8px var(--status-red); }
+        .progress-container { margin-top: var(--space-20); }
+        .progress-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary); margin-bottom: var(--space-8); }
+        .progress-value { color: var(--accent-blue-hover); font-weight: 600; }
         .progress-bar { height: 6px; background: rgba(255,255,255,0.08); border-radius: var(--radius-full); overflow: hidden; }
         .progress-fill { height: 100%; background: linear-gradient(90deg,var(--accent-blue),var(--accent-blue-hover)); transition: width var(--duration-slow) var(--ease-apple); }
-        .agent-detail { display: none; margin-top: var(--space-20); padding-top: var(--space-20); border-top: 1px solid var(--border-subtle); }
+        .agent-lobster-badge { position: absolute; top: var(--space-20); right: var(--space-20); font-size: 20px; filter: drop-shadow(0 0 8px rgba(255,107,53,0.3)); transition: all var(--duration-normal); }
+        .agent-lobster-badge.high { filter: drop-shadow(0 0 16px rgba(255,107,53,0.8)); animation: lobster-glow 2s infinite; }
+        .agent-lobster-badge.medium { filter: drop-shadow(0 0 10px rgba(255,107,53,0.5)); }
+        @keyframes lobster-glow { 0%,100%{filter:drop-shadow(0 0 16px rgba(255,107,53,0.8))} 50%{filter:drop-shadow(0 0 24px rgba(255,107,53,1))} }
+        .agent-detail { display: none; margin-top: var(--space-20); padding-top: var(--space-20); border-top: 1px solid var(--border-subtle); position: relative; z-index: 1; }
         .agent-detail.show { display: block; animation: slideDown var(--duration-normal) var(--ease-apple); }
         @keyframes slideDown { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:translateY(0)} }
         .detail-item { display: flex; justify-content: space-between; padding: var(--space-10) var(--space-12); font-size: 12px; }
         .detail-label { color: var(--text-secondary); padding-right: var(--space-24); }
         .detail-value { color: var(--text-primary); text-align: right; white-space: nowrap; }
-
-        /* 任务卡片 - Apple 丝滑动画 */
+        
+        /* 任务卡片 */
         .tasks-section { background: linear-gradient(180deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-32); }
         .tasks-grid { display: flex; flex-direction: column; gap: var(--space-20); }
         .task-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: var(--space-24); cursor: pointer; transition: all var(--duration-slow) var(--ease-apple); }
@@ -97,7 +95,7 @@
         .task-desc { font-size: 14px; color: var(--text-secondary); margin-bottom: var(--space-16); }
         .task-detail { display: none; padding: var(--space-20); background: rgba(255,255,255,0.02); border-radius: var(--radius-lg); font-size: 13px; color: var(--text-secondary); white-space: pre-line; line-height: 1.6; margin-top: var(--space-16); border: 1px solid rgba(41,151,255,0.1); animation: slideDown var(--duration-normal) var(--ease-apple); }
         .task-detail.show { display: block; }
-
+        
         /* 学习记录 */
         .learning-section { background: linear-gradient(180deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-36) var(--space-40); }
         .learning-list { display: flex; flex-direction: column; gap: var(--space-20); }
@@ -109,7 +107,7 @@
         .learning-content { flex: 1; }
         .learning-title { font-size: 15px; font-weight: 600; margin-bottom: var(--space-6); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .learning-insight { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
-
+        
         /* 历史精华 */
         .highlights-section { background: linear-gradient(180deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-36) var(--space-40); }
         .highlights-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(320px,1fr)); gap: var(--space-24); }
@@ -122,8 +120,8 @@
         .highlight-content { font-size: 14px; line-height: 1.6; margin-bottom: var(--space-20); padding: var(--space-20); background: linear-gradient(135deg,rgba(41,151,255,0.08) 0%,rgba(41,151,255,0.03) 100%); border-radius: var(--radius-lg); border-left: 4px solid var(--accent-blue); }
         .highlight-action { display: flex; align-items: flex-start; gap: var(--space-8); font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
         .highlight-action::before { content: '💡'; font-size: 14px; }
-
-        /* 能力库 - 条目单独动画 + 图标文字设计 */
+        
+        /* 能力库 */
         .capabilities-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); gap: var(--space-28); }
         .capability-card { background: linear-gradient(180deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-32); transition: all var(--duration-normal) var(--ease-apple); }
         .capability-card:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.15); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
@@ -135,10 +133,10 @@
         .capability-info { flex: 1; display: flex; flex-direction: column; gap: var(--space-2); }
         .capability-name { font-size: 14px; font-weight: 600; color: var(--text-primary); }
         .capability-desc { font-size: 12px; color: var(--text-secondary); }
-
+        
         /* 底部 */
         .footer { margin-top: var(--space-80); text-align: center; font-size: 13px; color: var(--text-secondary); padding-top: var(--space-40); border-top: 1px solid var(--border-subtle); }
-
+        
         /* 响应式 */
         @media (max-width: 768px) {
             .container { padding: var(--space-40) var(--space-20); }
@@ -152,20 +150,14 @@
 </head>
 <body>
     <div class="container">
-        <!-- 顶部标题 -->
         <div class="header">
             <div class="header-title"><h1>Agent 指挥中心</h1></div>
             <div class="header-subtitle">实时监控 · 智能调度 · 数据可视化</div>
+            <div class="status-line-container">
+                <div class="status-line" id="status-line"></div>
+                <button class="refresh-btn" onclick="refreshData()">↻ 刷新</button>
+            </div>
         </div>
-
-        <!-- 状态栏（移到中间） -->
-        <div class="status-bar">
-            <div class="status-capsule"><span class="status-dot"></span><span id="runtime">运行中</span></div>
-            <div class="status-divider"></div>
-            <button class="refresh-btn" onclick="refreshData()">↻ 刷新</button>
-        </div>
-
-        <!-- 总指挥卡片 -->
         <div class="commander-section">
             <div class="commander-card">
                 <div class="commander-avatar">
@@ -176,32 +168,22 @@
                 <div class="commander-status"><span class="status-dot"></span><span>在线陪你工作</span></div>
             </div>
         </div>
-
-        <!-- Agent 卡片 -->
         <div class="section">
             <div class="section-header"><span class="section-icon">🤖</span><h2 class="section-title">Agent 团队</h2></div>
             <div class="agents-grid" id="agents-grid"></div>
         </div>
-
-        <!-- 任务列表 -->
         <div class="section">
             <div class="section-header"><span class="section-icon">📋</span><h2 class="section-title">进行中的任务</h2></div>
             <div class="tasks-section" id="tasks-section"></div>
         </div>
-
-        <!-- 今日学习 -->
         <div class="section">
             <div class="section-header"><span class="section-icon">📚</span><h2 class="section-title">今日学习记录</h2></div>
             <div class="learning-section" id="learning-section"></div>
         </div>
-
-        <!-- 历史精华 -->
         <div class="section">
             <div class="section-header"><span class="section-icon">✨</span><h2 class="section-title">历史精华知识点</h2></div>
             <div class="highlights-section" id="highlights-section"></div>
         </div>
-
-        <!-- 能力库 -->
         <div class="section">
             <div class="section-header"><span class="section-icon">🛠️</span><h2 class="section-title">能力 & 资源</h2></div>
             <div class="capabilities-grid">
@@ -209,82 +191,90 @@
                 <div class="capability-card"><div class="capability-header"><span>📦</span><span>资源库</span></div><div class="capability-list" id="resources-list"></div></div>
             </div>
         </div>
-
-        <!-- 底部 -->
         <div class="footer"><p>最后更新：<span id="last-update">--:--:--</span></p><p style="margin-top:8px;">🤖 Jump Miao · Agent 团队</p></div>
     </div>
-
     <script>
         let dashboardData = null;
         function updateTime() { const now = new Date(); document.getElementById('last-update').textContent = now.toLocaleTimeString('zh-CN', {hour12:false,hour:'2-digit',minute:'2-digit'}); }
-        
         function toggleAgentDetail(card) { const detail = card.querySelector('.agent-detail'); if(detail) detail.classList.toggle('show'); }
-        
         function toggleTaskDetail(card) {
             document.querySelectorAll('.task-detail.show').forEach(d => { if(d !== card.querySelector('.task-detail')) d.classList.remove('show'); });
             document.querySelectorAll('.task-card.active').forEach(c => { if(c !== card) c.classList.remove('active'); });
             const detail = card.querySelector('.task-detail');
             if(detail) { detail.classList.toggle('show'); card.classList.toggle('active'); }
         }
-        
         document.addEventListener('mouseleave', function(e) {
             if(e.target.closest('.task-card')) {
                 document.querySelectorAll('.task-detail.show').forEach(d => d.classList.remove('show'));
                 document.querySelectorAll('.task-card.active').forEach(c => c.classList.remove('active'));
             }
         });
-
         function renderAgents(agents) {
             const grid = document.getElementById('agents-grid');
             grid.innerHTML = '';
             Object.values(agents).forEach(agent => {
                 const card = document.createElement('div');
                 card.className = 'agent-card';
-                card.onmousemove = function(e) {
-                    const rect = this.getBoundingClientRect();
-                    this.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
-                    this.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
-                };
+                
+                // 呼吸光效颜色（绿色=学习，橙色=工作，红色=卡住）
+                let breathColor = 'var(--status-green)';
+                if(agent.health === 'stuck') breathColor = 'var(--status-red)';
+                else if(agent.name.includes('Creator') || agent.name.includes('Turbo')) breathColor = 'var(--status-orange)';
+                card.style.setProperty('--breath-color', breathColor);
+                
                 card.onclick = () => toggleAgentDetail(card);
                 
-                // 根据进度计算状态灯（5 个灯）
+                // 5 个状态指示灯（右上角）
                 const lights = [];
                 const lightCount = 5;
-                const greenCount = Math.round((agent.progress / 100) * lightCount);
+                const activeCount = Math.round((agent.progress / 100) * lightCount);
                 for(let i = 0; i < lightCount; i++) {
-                    if(i < greenCount) lights.push('green');
-                    else if(agent.health === 'stuck') lights.push('red');
-                    else lights.push('orange');
+                    if(i < activeCount) {
+                        if(agent.health === 'stuck') lights.push('red');
+                        else if(breathColor === 'var(--status-orange)') lights.push('orange');
+                        else lights.push('active');
+                    }
                 }
                 const lightsHtml = lights.map(color => `<div class="status-light ${color}"></div>`).join('');
                 
+                // 龙虾徽章（产出高=整只发光，产出中=半只，产出低=少量）
+                let lobsterClass = '';
+                let lobsterEmoji = '🦞';
+                if(agent.progress >= 80) { lobsterClass = 'high'; lobsterEmoji = '🦞'; }
+                else if(agent.progress >= 50) { lobsterClass = 'medium'; lobsterEmoji = '🦞'; }
+                else { lobsterEmoji = '🦐'; }
+                
                 const detailsHtml = Object.entries(agent.details).map(([key,value]) => `<div class="detail-item"><span class="detail-label">${key}</span><span class="detail-value">${value}</span></div>`).join('');
-                card.innerHTML = `<div class="agent-header"><span class="agent-icon">${agent.icon}</span><span class="agent-name">${agent.name}</span></div><div class="agent-status">${agent.status}</div><div class="progress-container"><div class="progress-label"><span>进度</span><span class="progress-value">${agent.progress}%</span></div><div class="progress-bar"><div class="progress-fill" style="width:${agent.progress}%"></div></div></div><div class="agent-status-lights">${lightsHtml}</div><div class="agent-detail">${detailsHtml}</div>`;
+                card.innerHTML = `<div class="agent-lobster-badge ${lobsterClass}">${lobsterEmoji}</div><div class="agent-card-content"><div class="agent-header"><div class="agent-name-group"><span class="agent-icon">${agent.icon}</span><span class="agent-name">${agent.name}</span></div><div class="agent-status-lights">${lightsHtml}</div></div><div class="agent-status">${agent.status}</div><div class="progress-container"><div class="progress-label"><span>进度</span><span class="progress-value">${agent.progress}%</span></div><div class="progress-bar"><div class="progress-fill" style="width:${agent.progress}%"></div></div></div><div class="agent-detail">${detailsHtml}</div></div>`;
                 grid.appendChild(card);
             });
         }
-
         function renderTasks(tasks) {
             const section = document.getElementById('tasks-section');
             section.innerHTML = `<div class="tasks-grid">${tasks.map(task => `<div class="task-card" onclick="toggleTaskDetail(this)"><div class="task-header"><span class="task-title">${task.title}</span></div><div class="task-desc">${task.desc}</div><div class="task-detail">${task.detail}</div></div>`).join('')}</div>`;
         }
-
         function renderLearning(learning) {
             const section = document.getElementById('learning-section');
             section.innerHTML = `<div class="learning-list">${learning.map(item => `<div class="learning-card"><div class="learning-item"><span class="learning-time">${item.time}</span><span class="learning-category">${item.category}</span><div class="learning-content"><div class="learning-title">${item.title}</div><div class="learning-insight">${item.insight}</div></div></div></div>`).join('')}</div>`;
         }
-
         function renderHighlights(highlights) {
             const section = document.getElementById('highlights-section');
             if(!highlights || highlights.length === 0) { section.innerHTML = '<p style="color:var(--text-secondary);text-align:center;padding:var(--space-40);">暂无历史精华记录</p>'; return; }
             section.innerHTML = `<div class="highlights-grid">${highlights.map(item => `<div class="highlight-card"><div class="highlight-header"><span class="highlight-icon">${item.icon}</span><span class="highlight-title">${item.title}</span><span class="highlight-source">${item.source}</span></div><div class="highlight-content">${item.content}</div><div class="highlight-action">${item.action}</div></div>`).join('')}</div>`;
         }
-
         function renderCapabilities(capabilities) {
             document.getElementById('skills-list').innerHTML = capabilities.skills.map(skill => `<div class="capability-item"><span class="capability-icon">${skill.status}</span><div class="capability-info"><div class="capability-name">${skill.name}</div><div class="capability-desc">${skill.desc}</div></div></div>`).join('');
             document.getElementById('resources-list').innerHTML = capabilities.resources.map(resource => `<div class="capability-item"><span class="capability-icon">${resource.status}</span><div class="capability-info"><div class="capability-name">${resource.name}</div><div class="capability-desc">${resource.desc}</div></div></div>`).join('');
         }
-
+        function updateStatusLine() {
+            const statusLine = document.getElementById('status-line');
+            if(dashboardData && dashboardData.healthStatus) {
+                const {healthy, slow, stuck} = dashboardData.healthStatus.summary;
+                if(stuck > 0) { statusLine.className = 'status-line red'; }
+                else if(slow > 0) { statusLine.className = 'status-line orange'; }
+                else { statusLine.className = 'status-line'; }
+            }
+        }
         async function refreshData() {
             updateTime();
             const btn = document.querySelector('.refresh-btn');
@@ -297,6 +287,7 @@
                 renderLearning(dashboardData.todayLearning);
                 renderHighlights(dashboardData.highlights);
                 renderCapabilities(dashboardData.capabilities);
+                updateStatusLine();
                 console.log('✅ 数据已更新:', dashboardData.lastUpdate);
             } catch(error) { console.error('❌ 加载数据失败:', error); }
             setTimeout(() => { btn.innerHTML = '↻ 刷新'; }, 500);
