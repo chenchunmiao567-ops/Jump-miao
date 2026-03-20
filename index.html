@@ -64,14 +64,14 @@
         .agent-icon { font-size: 36px; }
         .agent-name { font-size: 18px; font-weight: 600; }
         .agent-status { font-size: 13px; color: var(--text-secondary); margin-bottom: var(--space-20); line-height: 1.5; min-height: 40px; }
-        .agent-right-group { display: flex; align-items: center; gap: var(--space-8); }
-        .agent-status-lights { display: flex; gap: var(--space-6); }
+        .agent-right-group { display: flex; align-items: center; gap: var(--space-8); flex-shrink: 0; }
+        .agent-status-lights { display: flex; align-items: center; gap: var(--space-6); }
         .status-light { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: all var(--duration-fast); }
         .status-light.active { background: var(--status-green); box-shadow: 0 0 8px var(--status-green); }
         .status-light.orange { background: var(--status-orange); box-shadow: 0 0 8px var(--status-orange); }
         .status-light.red { background: var(--status-red); box-shadow: 0 0 8px var(--status-red); }
-        .agent-lobster-badge { width: 24px; height: 24px; overflow: hidden; border-radius: 50%; background: rgba(0,0,0,0.3); flex-shrink: 0; }
-        .agent-lobster-badge::before { content: '🦞'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 16px; z-index: 2; }
+        .agent-lobster-badge { width: 24px; height: 24px; overflow: hidden; border-radius: 50%; background: rgba(0,0,0,0.3); position: relative; flex-shrink: 0; }
+        .agent-lobster-badge::before { content: '🦞'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 14px; z-index: 2; }
         .agent-lobster-badge::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: var(--water-level); background: linear-gradient(180deg, var(--breath-color), transparent); animation: water-flow 3s infinite; z-index: 1; }
         .progress-container { margin-top: var(--space-20); }
         .progress-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary); margin-bottom: var(--space-8); }
@@ -99,10 +99,10 @@
         @keyframes section-glow { 0%,100%{opacity:0.3;transform:translate(0,0)} 50%{opacity:0.6;transform:translate(-10px,-10px)} }
         .tasks-grid { display: flex; flex-direction: column; gap: var(--space-20); }
         .task-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: var(--space-24); cursor: pointer; transition: all var(--duration-slow) var(--ease-apple); position: relative; overflow: hidden; }
-        .task-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, var(--accent-blue), transparent); animation: task-shine 4s infinite; }
+        .task-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, var(--accent-blue), transparent); animation: task-shine 6s infinite; }
         @keyframes task-shine { 0%{left:-100%} 50%,100%{left:100%} }
         .task-card:hover { background: rgba(255,255,255,0.03); border-color: var(--border-highlight); }
-        .task-card:hover::before { animation-duration: 1s; }
+        .task-card:hover::before { animation-duration: 3s; }
         .task-card::after { content: ''; position: absolute; inset: 0; border-radius: var(--radius-lg); background: radial-gradient(circle at center, rgba(41,151,255,0.08) 0%, transparent 70%); opacity: 0; animation: task-breath 3s infinite; pointer-events: none; }
         @keyframes task-breath { 0%,100%{opacity:0.3} 50%{opacity:0.6} }
         .task-card.active { border-color: var(--accent-blue); box-shadow: 0 0 0 1px rgba(41,151,255,0.3), 0 8px 24px rgba(41,151,255,0.2); }
@@ -113,9 +113,11 @@
         .task-detail { display: none; padding: var(--space-20); background: rgba(255,255,255,0.02); border-radius: var(--radius-lg); font-size: 13px; color: var(--text-secondary); white-space: pre-line; line-height: 1.6; margin-top: var(--space-16); border: 1px solid rgba(41,151,255,0.1); animation: slideDown var(--duration-normal) var(--ease-apple); }
         .task-detail.show { display: block; }
         
-        /* 学习记录 - 呼吸光效 */
+        /* 学习记录 - 呼吸光效 + 浮动光点 */
         .learning-section { background: linear-gradient(180deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-36) var(--space-40); position: relative; overflow: hidden; }
         .learning-section::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(41,151,255,0.04) 0%, transparent 70%); animation: section-glow 4s infinite; pointer-events: none; }
+        .learning-section::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(41,151,255,0.03), transparent); animation: learning-float 8s infinite; pointer-events: none; }
+        @keyframes learning-float { 0%{left:-100%} 50%,100%{left:100%} }
         .learning-list { display: flex; flex-direction: column; gap: var(--space-20); }
         .learning-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: var(--space-24); transition: all var(--duration-normal) var(--ease-apple); position: relative; overflow: hidden; }
         .learning-card::after { content: ''; position: absolute; inset: 0; border-radius: var(--radius-lg); background: radial-gradient(circle at center, rgba(41,151,255,0.06) 0%, transparent 70%); opacity: 0; animation: card-breath 3s infinite; pointer-events: none; }
@@ -135,7 +137,7 @@
         .highlight-card:hover { background: rgba(255,255,255,0.03); border-color: var(--border-highlight); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(41,151,255,0.2); }
         .highlight-header { display: flex; align-items: center; gap: var(--space-12); margin-bottom: var(--space-20); }
         .highlight-icon { font-size: 28px; }
-        .highlight-title { font-size: 16px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
+        .highlight-title { font-size: 16px; font-weight: 600; white-space: normal; overflow: visible; text-overflow: clip; line-height: 1.4; }
         .highlight-source { font-size: 11px; color: var(--text-secondary); margin-left: auto; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
         .highlight-content { font-size: 14px; line-height: 1.6; margin-bottom: var(--space-20); padding: var(--space-20); background: linear-gradient(135deg,rgba(41,151,255,0.08) 0%,rgba(41,151,255,0.03) 100%); border-radius: var(--radius-lg); border-left: 4px solid var(--accent-blue); }
         .highlight-action { display: flex; align-items: flex-start; gap: var(--space-8); font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
