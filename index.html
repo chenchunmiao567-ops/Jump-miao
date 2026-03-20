@@ -22,71 +22,77 @@
             --space-8: 8px; --space-12: 12px; --space-16: 16px; --space-20: 20px;
             --space-24: 24px; --space-28: 28px; --space-32: 32px; --space-36: 36px;
             --space-40: 40px; --space-48: 48px; --space-60: 60px; --space-80: 80px; --space-100: 100px;
-            --duration-normal: 300ms; --ease-standard: cubic-bezier(0.25,0.1,0.25,1);
+            --duration-fast: 200ms; --duration-normal: 350ms; --duration-slow: 500ms;
+            --ease-apple: cubic-bezier(0.25,0.1,0.25,1);
+            --ease-smooth: cubic-bezier(0.4,0,0.2,1);
         }
         .container { max-width: 1200px; margin: 0 auto; padding: var(--space-60) var(--space-40); }
         
-        /* 顶部状态栏 */
-        .header { display: flex; flex-direction: column; align-items: center; gap: var(--space-24); margin-bottom: var(--space-100); padding: var(--space-40) 0; }
+        /* 顶部状态栏 - 移到 Agent 卡片上方 */
+        .header { display: flex; flex-direction: column; align-items: center; gap: var(--space-24); margin-bottom: var(--space-60); padding: var(--space-40) 0; }
         .header-title h1 { font-size: 48px; font-weight: 700; background: linear-gradient(180deg,#FFFFFF 0%,#86868B 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.5px; margin: 0; }
         .header-subtitle { font-size: 17px; color: var(--text-secondary); margin-top: 16px; }
-        .header .status { display: inline-flex; align-items: center; gap: var(--space-12); font-size: 14px; background: rgba(255,255,255,0.08); padding: var(--space-10) var(--space-24); border-radius: var(--radius-full); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.15); margin-top: 28px; }
+        
+        /* 状态胶囊 - 独立显示 */
+        .status-bar { display: flex; justify-content: center; gap: var(--space-16); margin-bottom: var(--space-80); }
+        .status-capsule { display: inline-flex; align-items: center; gap: var(--space-12); font-size: 14px; background: rgba(255,255,255,0.08); padding: var(--space-10) var(--space-24); border-radius: var(--radius-full); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.15); }
         .status-dot { width: 8px; height: 8px; background: var(--accent-green); border-radius: 50%; animation: pulse 2s infinite; }
         @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.9)} }
         .status-divider { width: 1px; height: 16px; background: rgba(255,255,255,0.2); }
-        .refresh-btn { background: var(--accent-blue); color: white; border: none; padding: var(--space-8) var(--space-16); border-radius: var(--radius-full); font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: var(--space-6); transition: all var(--duration-normal); }
+        .refresh-btn { background: var(--accent-blue); color: white; border: none; padding: var(--space-8) var(--space-16); border-radius: var(--radius-full); font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: var(--space-6); transition: all var(--duration-fast) var(--ease-apple); }
         .refresh-btn:hover { background: var(--accent-blue-hover); transform: translateY(-1px); }
 
         /* 总指挥卡片 - 圆形图标 */
         .commander-section { display: flex; justify-content: center; margin-bottom: var(--space-100); }
         .commander-card { background: linear-gradient(180deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%); border: 1px solid var(--border-subtle); border-radius: var(--radius-2xl); padding: var(--space-40); text-align: center; max-width: 520px; min-height: 360px; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
         .commander-avatar { margin-bottom: var(--space-20); }
-        .commander-avatar-img { width: 140px; height: 140px; object-fit: cover; border-radius: 50%; border: 3px solid rgba(41,151,255,0.3); filter: drop-shadow(0 10px 30px rgba(155,123,199,0.4)); animation: avatar-float 3s infinite; }
+        .commander-avatar-img { width: 140px; height: 140px; object-fit: cover; border-radius: 50%; border: 3px solid rgba(41,151,255,0.3); filter: drop-shadow(0 10px 30px rgba(155,123,199,0.4)); animation: avatar-float 3s var(--ease-apple) infinite; }
         @keyframes avatar-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
         .commander-name { font-size: 36px; font-weight: 700; margin-bottom: var(--space-8); }
         .commander-role { font-size: 15px; color: var(--text-secondary); margin-bottom: var(--space-24); line-height: 1.6; }
         .commander-status { display: inline-flex; align-items: center; gap: var(--space-8); padding: var(--space-8) var(--space-20); background: rgba(41,151,255,0.1); border-radius: var(--radius-full); font-size: 13px; color: var(--accent-blue-hover); border: 1px solid rgba(41,151,255,0.2); }
 
-        /* Section - 增加呼吸感 */
+        /* Section - 呼吸感 */
         .section { margin-bottom: var(--space-100); }
         .section-header { display: flex; align-items: center; gap: var(--space-16); margin-bottom: var(--space-36); }
         .section-icon { font-size: 32px; }
         .section-title { font-size: 28px; font-weight: 600; margin: 0; white-space: nowrap; }
 
-        /* Agent 卡片 */
+        /* Agent 卡片 - Apple 丝滑动画 */
         .agents-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: var(--space-28); }
-        .agent-card { background: linear-gradient(180deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-36) var(--space-32); cursor: pointer; transition: all var(--duration-normal) var(--ease-standard); }
+        .agent-card { background: linear-gradient(180deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-36) var(--space-32); cursor: pointer; transition: all var(--duration-slow) var(--ease-apple); }
         .agent-card:hover { transform: translateY(-4px); border-color: var(--border-highlight); box-shadow: 0 12px 40px rgba(41,151,255,0.2); }
         .agent-header { display: flex; align-items: center; gap: var(--space-12); margin-bottom: var(--space-16); }
         .agent-icon { font-size: 36px; }
         .agent-name { font-size: 18px; font-weight: 600; }
         .agent-status { font-size: 13px; color: var(--text-secondary); margin-bottom: var(--space-20); line-height: 1.5; }
         .progress-bar { height: 6px; background: rgba(255,255,255,0.08); border-radius: var(--radius-full); overflow: hidden; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg,var(--accent-blue),var(--accent-blue-hover)); transition: width var(--duration-normal); }
+        .progress-fill { height: 100%; background: linear-gradient(90deg,var(--accent-blue),var(--accent-blue-hover)); transition: width var(--duration-slow) var(--ease-apple); }
         .agent-detail { display: none; margin-top: var(--space-20); padding-top: var(--space-20); border-top: 1px solid var(--border-subtle); }
-        .agent-detail.show { display: block; }
+        .agent-detail.show { display: block; animation: slideDown var(--duration-normal) var(--ease-apple); }
+        @keyframes slideDown { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:translateY(0)} }
         .detail-item { display: flex; justify-content: space-between; padding: var(--space-10) var(--space-12); font-size: 12px; }
         .detail-label { color: var(--text-secondary); padding-right: var(--space-24); }
         .detail-value { color: var(--text-primary); text-align: right; white-space: nowrap; }
 
-        /* 任务卡片 - 移除点击展开文字，悬停高亮 */
+        /* 任务卡片 - Apple 丝滑动画 */
         .tasks-section { background: linear-gradient(180deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-32); }
         .tasks-grid { display: flex; flex-direction: column; gap: var(--space-20); }
-        .task-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: var(--space-24); cursor: pointer; transition: all var(--duration-normal); }
-        .task-card:hover { background: rgba(255,255,255,0.04); border-color: var(--border-highlight); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(41,151,255,0.15); }
+        .task-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: var(--space-24); cursor: pointer; transition: all var(--duration-slow) var(--ease-apple); }
+        .task-card:hover { background: rgba(255,255,255,0.03); border-color: var(--border-highlight); }
         .task-card.active { border-color: var(--accent-blue); box-shadow: 0 0 0 1px rgba(41,151,255,0.3), 0 8px 24px rgba(41,151,255,0.2); }
         .task-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-12); }
         .task-title { font-size: 18px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .task-expand { display: none; }
         .task-desc { font-size: 14px; color: var(--text-secondary); margin-bottom: var(--space-16); }
-        .task-detail { display: none; padding: var(--space-20); background: rgba(255,255,255,0.02); border-radius: var(--radius-lg); font-size: 13px; color: var(--text-secondary); white-space: pre-line; line-height: 1.6; margin-top: var(--space-16); border: 1px solid rgba(41,151,255,0.1); }
+        .task-detail { display: none; padding: var(--space-20); background: rgba(255,255,255,0.02); border-radius: var(--radius-lg); font-size: 13px; color: var(--text-secondary); white-space: pre-line; line-height: 1.6; margin-top: var(--space-16); border: 1px solid rgba(41,151,255,0.1); animation: slideDown var(--duration-normal) var(--ease-apple); }
         .task-detail.show { display: block; }
 
         /* 学习记录 */
         .learning-section { background: linear-gradient(180deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-36) var(--space-40); }
         .learning-list { display: flex; flex-direction: column; gap: var(--space-20); }
-        .learning-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: var(--space-24); transition: all var(--duration-normal); }
-        .learning-card:hover { background: rgba(255,255,255,0.04); border-color: var(--border-highlight); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(41,151,255,0.15); }
+        .learning-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: var(--space-24); transition: all var(--duration-normal) var(--ease-apple); }
+        .learning-card:hover { background: rgba(255,255,255,0.03); border-color: var(--border-highlight); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(41,151,255,0.15); }
         .learning-item { display: flex; gap: var(--space-16); }
         .learning-time { font-size: 13px; color: var(--accent-blue-hover); min-width: 50px; font-family: "SF Mono",monospace; }
         .learning-category { font-size: 11px; padding: var(--space-4) var(--space-12); border-radius: var(--radius-full); background: rgba(41,151,255,0.15); color: var(--accent-blue-hover); height: fit-content; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -94,11 +100,11 @@
         .learning-title { font-size: 15px; font-weight: 600; margin-bottom: var(--space-6); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .learning-insight { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
 
-        /* 历史精华 - 优化标题和标识 */
+        /* 历史精华 */
         .highlights-section { background: linear-gradient(180deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-36) var(--space-40); }
         .highlights-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(320px,1fr)); gap: var(--space-24); }
-        .highlight-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: var(--space-28); cursor: pointer; transition: all var(--duration-normal); }
-        .highlight-card:hover { background: rgba(255,255,255,0.04); border-color: var(--border-highlight); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(41,151,255,0.2); }
+        .highlight-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: var(--space-28); cursor: pointer; transition: all var(--duration-normal) var(--ease-apple); }
+        .highlight-card:hover { background: rgba(255,255,255,0.03); border-color: var(--border-highlight); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(41,151,255,0.2); }
         .highlight-header { display: flex; align-items: center; gap: var(--space-12); margin-bottom: var(--space-20); }
         .highlight-icon { font-size: 28px; }
         .highlight-title { font-size: 16px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -107,13 +113,18 @@
         .highlight-action { display: flex; align-items: flex-start; gap: var(--space-8); font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
         .highlight-action::before { content: '💡'; font-size: 14px; }
 
-        /* 能力库 */
+        /* 能力库 - 条目单独动画 + 图标文字设计 */
         .capabilities-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); gap: var(--space-28); }
-        .capability-card { background: linear-gradient(180deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-32); transition: all var(--duration-normal); }
+        .capability-card { background: linear-gradient(180deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-32); transition: all var(--duration-normal) var(--ease-apple); }
         .capability-card:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.15); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
         .capability-header { display: flex; align-items: center; gap: var(--space-12); margin-bottom: var(--space-24); font-size: 18px; font-weight: 600; }
         .capability-list { display: flex; flex-direction: column; gap: var(--space-12); }
-        .capability-item { display: flex; align-items: center; gap: var(--space-12); padding: var(--space-14); background: rgba(255,255,255,0.02); border-radius: var(--radius-lg); transition: all var(--duration-normal); }
+        .capability-item { display: flex; align-items: center; gap: var(--space-12); padding: var(--space-14); background: rgba(255,255,255,0.02); border-radius: var(--radius-lg); transition: all var(--duration-fast) var(--ease-apple); }
+        .capability-item:hover { background: rgba(255,255,255,0.04); transform: translateX(4px); }
+        .capability-icon { font-size: 16px; min-width: 20px; text-align: center; }
+        .capability-info { flex: 1; display: flex; flex-direction: column; gap: var(--space-2); }
+        .capability-name { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+        .capability-desc { font-size: 12px; color: var(--text-secondary); }
 
         /* 底部 */
         .footer { margin-top: var(--space-80); text-align: center; font-size: 13px; color: var(--text-secondary); padding-top: var(--space-40); border-top: 1px solid var(--border-subtle); }
@@ -131,15 +142,17 @@
 </head>
 <body>
     <div class="container">
-        <!-- 顶部状态栏 -->
+        <!-- 顶部标题 -->
         <div class="header">
             <div class="header-title"><h1>Agent 指挥中心</h1></div>
             <div class="header-subtitle">实时监控 · 智能调度 · 数据可视化</div>
-            <div class="status">
-                <div class="status-left"><span class="status-dot"></span><span id="runtime">运行中</span></div>
-                <div class="status-divider"></div>
-                <button class="refresh-btn" onclick="refreshData()">↻ 刷新</button>
-            </div>
+        </div>
+
+        <!-- 状态栏（移到中间） -->
+        <div class="status-bar">
+            <div class="status-capsule"><span class="status-dot"></span><span id="runtime">运行中</span></div>
+            <div class="status-divider"></div>
+            <button class="refresh-btn" onclick="refreshData()">↻ 刷新</button>
         </div>
 
         <!-- 总指挥卡片 -->
@@ -198,22 +211,12 @@
         function toggleAgentDetail(card) { const detail = card.querySelector('.agent-detail'); if(detail) detail.classList.toggle('show'); }
         
         function toggleTaskDetail(card) {
-            // 关闭所有其他展开的详情
-            document.querySelectorAll('.task-detail.show').forEach(d => {
-                if(d !== card.querySelector('.task-detail')) d.classList.remove('show');
-            });
-            document.querySelectorAll('.task-card.active').forEach(c => {
-                if(c !== card) c.classList.remove('active');
-            });
-            // 切换当前卡片
+            document.querySelectorAll('.task-detail.show').forEach(d => { if(d !== card.querySelector('.task-detail')) d.classList.remove('show'); });
+            document.querySelectorAll('.task-card.active').forEach(c => { if(c !== card) c.classList.remove('active'); });
             const detail = card.querySelector('.task-detail');
-            if(detail) {
-                detail.classList.toggle('show');
-                card.classList.toggle('active');
-            }
+            if(detail) { detail.classList.toggle('show'); card.classList.toggle('active'); }
         }
         
-        // 鼠标离开时关闭详情
         document.addEventListener('mouseleave', function(e) {
             if(e.target.closest('.task-card')) {
                 document.querySelectorAll('.task-detail.show').forEach(d => d.classList.remove('show'));
@@ -251,8 +254,8 @@
         }
 
         function renderCapabilities(capabilities) {
-            document.getElementById('skills-list').innerHTML = capabilities.skills.map(skill => `<div class="capability-item"><span class="capability-status">${skill.status}</span><div class="capability-info"><div class="capability-name">${skill.name}</div><div class="capability-desc">${skill.desc}</div></div></div>`).join('');
-            document.getElementById('resources-list').innerHTML = capabilities.resources.map(resource => `<div class="capability-item"><span class="capability-status">${resource.status}</span><div class="capability-info"><div class="capability-name">${resource.name}</div><div class="capability-desc">${resource.desc}</div></div></div>`).join('');
+            document.getElementById('skills-list').innerHTML = capabilities.skills.map(skill => `<div class="capability-item"><span class="capability-icon">${skill.status}</span><div class="capability-info"><div class="capability-name">${skill.name}</div><div class="capability-desc">${skill.desc}</div></div></div>`).join('');
+            document.getElementById('resources-list').innerHTML = capabilities.resources.map(resource => `<div class="capability-item"><span class="capability-icon">${resource.status}</span><div class="capability-info"><div class="capability-name">${resource.name}</div><div class="capability-desc">${resource.desc}</div></div></div>`).join('');
         }
 
         async function refreshData() {
