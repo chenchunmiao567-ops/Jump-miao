@@ -5,63 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agent 指挥中心</title>
     <style>
-        /* ========================================
-           Apple Design System v2.0
-           基于 Human Interface Guidelines
-           ======================================== */
-        
-        :root {
-            /* 色彩系统 */
-            --bg-primary: #000000;
-            --bg-secondary: #1D1D1F;
-            --bg-tertiary: #0D0D0D;
-            --text-primary: #FFFFFF;
-            --text-secondary: #86868B;
-            --accent-blue: #0071E3;
-            --accent-blue-hover: #2997FF;
-            --accent-green: #30D158;
-            --accent-orange: #FF6B35;
-            --border-subtle: rgba(255, 255, 255, 0.08);
-            --border-highlight: rgba(41, 151, 255, 0.4);
-            
-            /* 间距系统 (8px 网格) */
-            --space-4: 4px;
-            --space-8: 8px;
-            --space-12: 12px;
-            --space-16: 16px;
-            --space-24: 24px;
-            --space-32: 32px;
-            --space-40: 40px;
-            --space-60: 60px;
-            --space-80: 80px;
-            
-            /* 圆角系统 */
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-            --radius-xl: 20px;
-            --radius-2xl: 24px;
-            --radius-full: 980px;
-            
-            /* 阴影系统 */
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
-            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
-            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.15);
-            --shadow-glow: 0 0 120px rgba(41, 151, 255, 0.05);
-            
-            /* 动画系统 */
-            --ease-standard: cubic-bezier(0.25, 0.1, 0.25, 1);
-            --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
-            --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
-            --duration-fast: 200ms;
-            --duration-normal: 300ms;
-            --duration-slow: 400ms;
-        }
-
-        /* ========================================
-           基础样式
-           ======================================== */
-        
         * {
             margin: 0;
             padding: 0;
@@ -70,8 +13,8 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "PingFang SC", sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            background: #000000;
+            color: #F5F5F7;
             min-height: 100vh;
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
@@ -83,16 +26,41 @@
             background-attachment: fixed;
         }
 
+        :root {
+            --bg-primary: #000000;
+            --bg-secondary: #1D1D1F;
+            --bg-tertiary: #0D0D0D;
+            --text-primary: #FFFFFF;
+            --text-secondary: #86868B;
+            --accent-blue: #0071E3;
+            --accent-blue-hover: #2997FF;
+            --accent-green: #30D158;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --radius-2xl: 24px;
+            --space-8: 8px;
+            --space-12: 12px;
+            --space-16: 16px;
+            --space-20: 20px;
+            --space-24: 24px;
+            --space-28: 28px;
+            --space-32: 32px;
+            --space-36: 36px;
+            --space-40: 40px;
+            --space-60: 60px;
+            --duration-normal: 300ms;
+            --ease-standard: cubic-bezier(0.25, 0.1, 0.25, 1);
+            --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: var(--space-60) var(--space-24);
         }
 
-        /* ========================================
-           顶部状态栏 - Apple 设计原则
-           ======================================== */
-        
+        /* 顶部状态栏 */
         .header {
             display: flex;
             flex-direction: column;
@@ -109,25 +77,7 @@
             margin-bottom: var(--space-8);
         }
 
-        .lobster-svg {
-            animation: lobster-float 3s ease-in-out infinite;
-        }
-
-        .tennis-svg {
-            animation: tennis-float 3s ease-in-out infinite;
-        }
-
-        @keyframes lobster-float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-3px) rotate(-3deg); }
-        }
-
-        @keyframes tennis-float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-3px) rotate(3deg); }
-        }
-
-        .header h1 {
+        .header-title h1 {
             font-size: 48px;
             font-weight: 700;
             background: linear-gradient(180deg, #FFFFFF 0%, #86868B 100%);
@@ -199,11 +149,11 @@
             color: white;
             border: none;
             padding: var(--space-8) var(--space-16);
-            border-radius: 14px;  /* 黄金比例圆角 */
+            border-radius: 14px;
             font-size: 13px;
             font-weight: 500;
             cursor: pointer;
-            transition: all var(--duration-fast) var(--ease-smooth);
+            transition: all var(--duration-normal) var(--ease-standard);
             display: flex;
             align-items: center;
             gap: var(--space-6);
@@ -215,14 +165,7 @@
             box-shadow: 0 4px 12px rgba(41, 151, 255, 0.3);
         }
 
-        .refresh-btn:active {
-            transform: translateY(0);
-        }
-
-        /* ========================================
-           中央总指挥卡片 - 情感化设计
-           ======================================== */
-        
+        /* 中央总指挥卡片 */
         .commander-section {
             display: flex;
             justify-content: center;
@@ -239,34 +182,15 @@
             overflow: hidden;
             width: 100%;
             max-width: 520px;
-            min-height: 300px;
+            min-height: 340px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             box-shadow: 
                 0 0 0 1px rgba(255, 255, 255, 0.05),
-                var(--shadow-lg),
-                var(--shadow-glow);
-            transition: all var(--duration-slow) var(--ease-standard);
-        }
-
-        .commander-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-        }
-
-        .commander-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 
-                0 0 0 1px rgba(41, 151, 255, 0.2),
-                0 30px 80px rgba(0, 0, 0, 0.3),
-                0 0 160px rgba(41, 151, 255, 0.1);
+                0 20px 60px rgba(0, 0, 0, 0.5);
+            transition: all var(--duration-normal) var(--ease-standard);
         }
 
         .commander-avatar {
@@ -288,41 +212,9 @@
             animation: avatar-float 3s var(--ease-standard) infinite;
         }
 
-        .floating {
-            animation: avatar-float 3s var(--ease-standard) infinite;
-        }
-
-        .lobster-icon {
-            animation: lobster-float 2.5s ease-in-out infinite;
-        }
-
-        @keyframes lobster-float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-3px) rotate(-5deg); }
-        }
-
-        .tennis-icon {
-            animation: tennis-float 2.5s ease-in-out infinite;
-        }
-
-        @keyframes tennis-float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-3px) rotate(5deg); }
-        }
-
         @keyframes avatar-float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-8px); }
-        }
-
-        @keyframes claw-wave {
-            0%, 100% { transform: rotate(0deg); }
-            50% { transform: rotate(12deg); }
-        }
-
-        .claw-animate {
-            animation: claw-wave 2.5s ease-in-out infinite;
-            transform-origin: 145px 85px;
         }
 
         .commander-name {
@@ -347,17 +239,14 @@
             gap: var(--space-8);
             padding: var(--space-8) var(--space-20);
             background: rgba(41, 151, 255, 0.1);
-            border-radius: var(--radius-full);
+            border-radius: 20px;
             font-size: 13px;
             color: var(--accent-blue-hover);
             font-weight: 500;
             border: 1px solid rgba(41, 151, 255, 0.2);
         }
 
-        /* ========================================
-           Section 通用样式 - Apple 呼吸感设计
-           ======================================== */
-        
+        /* Section 通用样式 */
         .section {
             margin-bottom: var(--space-80);
         }
@@ -372,7 +261,6 @@
 
         .section-icon {
             font-size: 32px;
-            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
         }
 
         .section-title {
@@ -383,10 +271,7 @@
             margin: 0;
         }
 
-        /* ========================================
-           Agent 卡片网格 - 深度感原则
-           ======================================== */
-        
+        /* Agent 卡片网格 */
         .agents-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -397,36 +282,17 @@
             background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
             border: 1px solid var(--border-subtle);
             border-radius: var(--radius-xl);
-            padding: var(--space-24) var(--space-28);
+            padding: var(--space-36) var(--space-32);
             transition: all var(--duration-normal) var(--ease-standard);
             position: relative;
             overflow: hidden;
             cursor: pointer;
         }
 
-        .agent-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(41, 151, 255, 0.05) 0%, transparent 50%);
-            opacity: 0;
-            transition: opacity var(--duration-normal) var(--ease-standard);
-        }
-
-        .agent-card:hover::after {
-            opacity: 1;
-        }
-
         .agent-card:hover {
-            transform: translateY(-4px) scale(1.02);
-            border-color: var(--border-highlight);
-            box-shadow: 
-                0 0 0 1px rgba(41, 151, 255, 0.2),
-                var(--shadow-lg),
-                0 0 120px rgba(41, 151, 255, 0.08);
+            transform: translateY(-4px);
+            border-color: rgba(41, 151, 255, 0.3);
+            box-shadow: 0 12px 40px rgba(41, 151, 255, 0.2);
         }
 
         .agent-header {
@@ -434,13 +300,10 @@
             align-items: center;
             gap: var(--space-12);
             margin-bottom: var(--space-16);
-            position: relative;
-            z-index: 1;
         }
 
         .agent-icon {
             font-size: 36px;
-            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
         }
 
         .agent-name {
@@ -455,14 +318,10 @@
             color: var(--text-secondary);
             margin-bottom: var(--space-20);
             line-height: 1.5;
-            position: relative;
-            z-index: 1;
         }
 
         .progress-container {
             margin-top: var(--space-16);
-            position: relative;
-            z-index: 1;
         }
 
         .progress-label {
@@ -482,63 +341,23 @@
         .progress-bar {
             height: 6px;
             background: rgba(255, 255, 255, 0.08);
-            border-radius: var(--radius-full);
+            border-radius: 20px;
             overflow: hidden;
         }
 
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, var(--accent-blue), var(--accent-blue-hover));
-            border-radius: var(--radius-full);
-            transition: width var(--duration-slow) var(--ease-standard);
-            position: relative;
-        }
-
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            animation: shimmer 2s var(--ease-standard) infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        .agent-detail {
-            display: none;
-            margin-top: var(--space-24);
-            padding-top: var(--space-24);
-            border-top: 1px solid var(--border-subtle);
-            animation: detail-slide var(--duration-normal) var(--ease-smooth);
-            position: relative;
-            z-index: 1;
-        }
-
-        .agent-detail.show {
-            display: block;
-        }
-
-        @keyframes detail-slide {
-            from { opacity: 0; transform: translateY(-12px); }
-            to { opacity: 1; transform: translateY(0); }
+            border-radius: 20px;
+            transition: width var(--duration-normal) var(--ease-standard);
         }
 
         .agent-detail {
             display: none;
             margin-top: var(--space-20);
             padding-top: var(--space-20);
-            padding-left: var(--space-8);
-            padding-right: var(--space-8);
             border-top: 1px solid var(--border-subtle);
             animation: detail-slide var(--duration-normal) var(--ease-smooth);
-            position: relative;
-            z-index: 1;
         }
 
         .agent-detail.show {
@@ -553,21 +372,14 @@
         .detail-item {
             display: flex;
             justify-content: space-between;
-            padding: var(--space-10) var(--space-16);
+            padding: var(--space-10) var(--space-12);
             font-size: 12px;
-            border-radius: var(--radius-md);
-            transition: background var(--duration-fast) var(--ease-smooth);
-        }
-
-        .detail-item:hover {
-            background: rgba(255, 255, 255, 0.03);
         }
 
         .detail-label {
             color: var(--text-secondary);
             font-weight: 500;
             padding-right: var(--space-24);
-            flex-shrink: 0;
         }
 
         .detail-value {
@@ -575,13 +387,9 @@
             font-weight: 600;
             text-align: right;
             white-space: nowrap;
-            flex-shrink: 0;
         }
 
-        /* ========================================
-           任务列表 - 草图设计参考
-           ======================================== */
-        
+        /* 任务列表 */
         .tasks-section {
             background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
             border: 1px solid var(--border-subtle);
@@ -638,36 +446,6 @@
             margin-bottom: var(--space-16);
         }
 
-        .task-item {
-            display: flex;
-            align-items: flex-start;
-            gap: var(--space-16);
-        }
-
-        .task-icon {
-            font-size: 20px;
-            margin-top: var(--space-2);
-            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
-        }
-
-        .task-content {
-            flex: 1;
-        }
-
-        .task-title {
-            font-size: 16px;
-            color: var(--text-primary);
-            margin-bottom: var(--space-6);
-            font-weight: 600;
-            letter-spacing: -0.2px;
-        }
-
-        .task-desc {
-            font-size: 13px;
-            color: var(--text-secondary);
-            line-height: 1.5;
-        }
-
         .task-detail {
             display: none;
             margin-top: var(--space-16);
@@ -678,23 +456,18 @@
             color: var(--text-secondary);
             white-space: pre-line;
             line-height: 1.6;
-            border: 1px solid var(--border-subtle);
         }
 
         .task-detail.show {
             display: block;
-            animation: detail-slide var(--duration-normal) var(--ease-smooth);
         }
 
-        /* ========================================
-           学习记录 - Apple 卡片设计
-           ======================================== */
-        
+        /* 学习记录 */
         .learning-section {
             background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
             border: 1px solid var(--border-subtle);
             border-radius: var(--radius-xl);
-            padding: var(--space-28);
+            padding: var(--space-32) var(--space-40);
         }
 
         .learning-list {
@@ -735,7 +508,7 @@
         .learning-category {
             font-size: 11px;
             padding: var(--space-4) var(--space-10);
-            border-radius: var(--radius-full);
+            border-radius: 20px;
             background: rgba(41, 151, 255, 0.15);
             color: var(--accent-blue-hover);
             height: fit-content;
@@ -747,7 +520,7 @@
 
         .learning-content {
             flex: 1;
-            min-width: 0; /* 允许文字换行 */
+            min-width: 0;
         }
 
         .learning-title {
@@ -756,7 +529,7 @@
             font-weight: 600;
             margin-bottom: var(--space-6);
             letter-spacing: -0.2px;
-            word-wrap: break-word; /* 文字换行 */
+            word-wrap: break-word;
             overflow-wrap: break-word;
         }
 
@@ -764,31 +537,16 @@
             font-size: 13px;
             color: var(--text-secondary);
             line-height: 1.6;
-            word-wrap: break-word; /* 文字换行 */
+            word-wrap: break-word;
             overflow-wrap: break-word;
         }
 
-        /* ========================================
-           今日精华知识点 - 情感化设计
-           ======================================== */
-        
+        /* 历史记录 */
         .highlights-section {
             background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
             border: 1px solid var(--border-subtle);
             border-radius: var(--radius-xl);
             padding: var(--space-28);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .highlights-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
         }
 
         .highlights-grid {
@@ -822,7 +580,6 @@
 
         .highlight-icon {
             font-size: 24px;
-            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
         }
 
         .highlight-title {
@@ -848,7 +605,7 @@
             margin-bottom: var(--space-16);
             padding: var(--space-16);
             background: rgba(41, 151, 255, 0.08);
-            border-radius: var(--radius-md);
+            border-radius: var(--radius-lg);
             border-left: 3px solid var(--accent-blue);
         }
 
@@ -866,10 +623,7 @@
             font-size: 14px;
         }
 
-        /* ========================================
-           能力库 - 深度感原则
-           ======================================== */
-        
+        /* 能力库 */
         .capabilities-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -880,14 +634,14 @@
             background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
             border: 1px solid var(--border-subtle);
             border-radius: var(--radius-xl);
-            padding: var(--space-32);
+            padding: var(--space-28);
             transition: all var(--duration-normal) var(--ease-standard);
         }
 
         .capability-card:hover {
             transform: translateY(-2px);
             border-color: rgba(255, 255, 255, 0.15);
-            box-shadow: var(--shadow-md);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
         }
 
         .capability-header {
@@ -927,7 +681,6 @@
 
         .capability-status {
             font-size: 18px;
-            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
         }
 
         .capability-info {
@@ -948,10 +701,7 @@
             line-height: 1.4;
         }
 
-        /* ========================================
-           底部 - 一致性原则
-           ======================================== */
-        
+        /* 底部 */
         .footer {
             margin-top: var(--space-60);
             text-align: center;
@@ -965,10 +715,7 @@
             margin-bottom: var(--space-8);
         }
 
-        /* ========================================
-           加载动画
-           ======================================== */
-        
+        /* 加载动画 */
         .loading {
             display: inline-block;
             width: 14px;
@@ -983,11 +730,7 @@
             to { transform: rotate(360deg); }
         }
 
-        /* ========================================
-           响应式设计 - 移动端优先
-           ======================================== */
-        
-        /* 平板及以下 (768px) */
+        /* 响应式 */
         @media (max-width: 768px) {
             .container {
                 padding: var(--space-32) var(--space-16);
@@ -1003,113 +746,7 @@
 
             .commander-card {
                 padding: var(--space-24);
-                min-height: 260px;
-            }
-
-            .commander-avatar {
-                font-size: 64px;
-            }
-
-            .commander-name {
-                font-size: 26px;
-            }
-
-            .commander-role {
-                font-size: 14px;
-            }
-
-            .agents-grid,
-            .capabilities-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .task-item {
-                gap: var(--space-12);
-            }
-
-            .learning-item {
-                gap: var(--space-12);
-            }
-        }
-
-        /* 手机 (480px) */
-        @media (max-width: 480px) {
-            :root {
-                /* 移动端间距缩小 */
-                --space-60: var(--space-40);
-                --space-80: var(--space-48);
-                --space-40: var(--space-24);
-                --space-32: var(--space-20);
-                --space-24: var(--space-16);
-            }
-
-            /* 精华知识点 - 移动端单列 */
-            .highlights-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .highlight-card {
-                padding: var(--space-20);
-            }
-
-            .highlight-title {
-                font-size: 14px;
-            }
-
-            .highlight-content {
-                font-size: 12px;
-                padding: var(--space-12);
-            }
-
-            .highlight-action {
-                font-size: 11px;
-            }
-        }
-
-            .container {
-                padding: var(--space-24) var(--space-12);
-            }
-
-            .header-title {
-                gap: var(--space-12);
-            }
-
-            .header-logo {
-                width: 80px;
-                height: 40px;
-            }
-
-            .header h1 {
-                font-size: 28px;
-                letter-spacing: 0;
-            }
-
-            .header-subtitle {
-                font-size: 14px;
-            }
-
-            .header .status {
-                flex-wrap: wrap;
-                justify-content: center;
-                font-size: 13px;
-                padding: var(--space-8) var(--space-16);
-            }
-
-            .refresh-btn {
-                padding: var(--space-8) var(--space-14);
-                font-size: 12px;
-                min-height: 44px; /* 触摸友好 */
-            }
-
-            .section-title {
-                font-size: 20px;
-                margin-bottom: var(--space-20);
-            }
-
-            .commander-card {
-                padding: var(--space-20);
-                min-height: 240px;
-                border-radius: var(--radius-xl);
+                min-height: 280px;
             }
 
             .commander-avatar-img {
@@ -1118,200 +755,36 @@
             }
 
             .commander-name {
-                font-size: 22px;
+                font-size: 28px;
             }
 
-            .commander-role {
-                font-size: 13px;
-                margin-bottom: var(--space-16);
-            }
-
-            .commander-status {
-                padding: var(--space-6) var(--space-14);
-                font-size: 12px;
-            }
-
-            /* Agent 卡片 - 触摸友好 */
-            .agent-card {
-                padding: 28px 24px;  /* 移动端稍小一点的呼吸空间 */
-                min-height: auto;
-            }
-
-            .agent-icon {
-                font-size: 32px;
-            }
-
-            .agent-name {
-                font-size: 16px;
-            }
-
-            .agent-status {
-                font-size: 12px;
-            }
-
-            .agent-header span:last-child {
-                font-size: 11px !important;
-            }
-
-            .agent-detail {
-                padding-left: var(--space-4);
-                padding-right: var(--space-4);
-            }
-
-            .detail-item {
-                font-size: 11px;
-                padding: var(--space-10) var(--space-12);
-            }
-
-            .detail-label {
-                padding-right: var(--space-20);
-            }
-
-            /* 任务列表 - 触摸友好 */
-            .tasks-section {
-                padding: var(--space-16);
-            }
-
-            .tasks-grid {
+            .agents-grid,
+            .capabilities-grid {
                 grid-template-columns: 1fr;
             }
+        }
 
-            .task-card {
-                padding: var(--space-16);
+        @media (max-width: 480px) {
+            :root {
+                --space-60: var(--space-40);
+                --space-80: var(--space-48);
             }
 
-            .task-item {
-                min-height: 50px; /* 触摸区域 */
+            .header h1 {
+                font-size: 28px;
             }
 
-            .task-icon {
-                font-size: 18px;
-                min-width: 24px;
+            .section-title {
+                font-size: 20px;
             }
 
-            .task-title {
-                font-size: 15px;
-            }
-
-            .task-desc {
-                font-size: 12px;
-            }
-
-            .task-detail {
-                font-size: 12px;
-                padding: var(--space-16);
-            }
-
-            /* 学习记录 - 触摸友好 */
-            .learning-section {
-                padding: var(--space-16);
-            }
-
-            .learning-list {
-                gap: var(--space-12);
-            }
-
-            .learning-card {
-                padding: var(--space-16);
-            }
-
-            .learning-item {
-                gap: var(--space-12);
-            }
-
-            .learning-time {
-                font-size: 12px;
-                min-width: 45px;
-            }
-
-            .learning-category {
-                font-size: 10px;
-                padding: var(--space-3) var(--space-8);
-            }
-
-            .learning-title {
-                font-size: 14px;
-            }
-
-            .learning-insight {
-                font-size: 12px;
-            }
-
-            /* 能力库 - 触摸友好 */
-            .capability-card {
+            .commander-card {
                 padding: var(--space-20);
             }
 
-            .capability-header {
-                font-size: 16px;
-            }
-
-            .capability-item {
-                padding: var(--space-12);
-                min-height: 56px; /* 触摸区域 */
-            }
-
-            .capability-status {
-                font-size: 16px;
-            }
-
-            .capability-name {
-                font-size: 13px;
-            }
-
-            .capability-desc {
-                font-size: 11px;
-            }
-
-            /* 底部 */
-            .footer {
-                font-size: 12px;
-                margin-top: var(--space-48);
-            }
-        }
-
-        /* 触摸设备优化 */
-        @media (hover: none) and (pointer: coarse) {
-            /* 移除悬停效果，改用点击反馈 */
-            .agent-card:hover,
-            .capability-card:hover,
-            .task-item:hover,
-            .learning-item:hover {
-                transform: none;
-            }
-
-            .agent-card:active,
-            .capability-card:active,
-            .task-item:active {
-                transform: scale(0.98);
-                background: rgba(255, 255, 255, 0.06);
-            }
-
-            /* 确保所有可点击元素 ≥ 44x44px */
-            .refresh-btn,
-            .agent-card,
-            .task-item,
-            .capability-item {
-                min-height: 44px;
-            }
-        }
-
-        /* 深色模式支持 */
-        @media (prefers-color-scheme: light) {
-            :root {
-                --bg-primary: #FFFFFF;
-                --bg-secondary: #F5F5F7;
-                --bg-tertiary: #FFFFFF;
-                --text-primary: #1D1D1F;
-                --text-secondary: #86868B;
-                --border-subtle: rgba(0, 0, 0, 0.08);
-            }
-
-            body {
-                background: 
-                    radial-gradient(ellipse at 30% 20%, rgba(200, 200, 220, 0.3) 0%, transparent 60%),
-                    radial-gradient(ellipse at 70% 80%, rgba(220, 220, 240, 0.2) 0%, transparent 60%),
-                    var(--bg-primary);
+            .commander-avatar-img {
+                width: 80px;
+                height: 80px;
             }
         }
     </style>
@@ -1321,50 +794,10 @@
         <!-- 顶部状态栏 -->
         <div class="header">
             <div class="header-title">
-                <svg viewBox="0 0 100 50" class="header-logo">
-                    <!-- 龙虾图标 (橙色扁平风格) -->
-                    <g class="lobster-svg">
-                        <!-- 身体 -->
-                        <ellipse cx="25" cy="30" rx="12" ry="8" fill="#FF6B35"/>
-                        <!-- 头部 -->
-                        <circle cx="25" cy="20" r="7" fill="#FF6B35"/>
-                        <!-- 眼睛 -->
-                        <circle cx="22" cy="18" r="2" fill="#1a1a2e"/>
-                        <circle cx="28" cy="18" r="2" fill="#1a1a2e"/>
-                        <!-- 触角 -->
-                        <path d="M23 13 Q22 10 21 8" stroke="#FF6B35" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-                        <path d="M27 13 Q28 10 29 8" stroke="#FF6B35" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-                        <!-- 钳子 -->
-                        <path d="M18 28 Q14 26 12 24 Q13 28 16 30" fill="#FF6B35"/>
-                        <path d="M32 28 Q36 26 38 24 Q37 28 34 30" fill="#FF6B35"/>
-                        <!-- 腿 -->
-                        <path d="M20 36 L18 40" stroke="#FF6B35" stroke-width="1.5" stroke-linecap="round"/>
-                        <path d="M23 37 L23 41" stroke="#FF6B35" stroke-width="1.5" stroke-linecap="round"/>
-                        <path d="M26 37 L27 41" stroke="#FF6B35" stroke-width="1.5" stroke-linecap="round"/>
-                        <!-- 尾巴 -->
-                        <path d="M25 38 L22 43 L25 41 L28 43 Z" fill="#FF6B35"/>
-                    </g>
-                    
-                    <!-- 网球拍图标 (橙色扁平风格) -->
-                    <g class="tennis-svg">
-                        <!-- 拍面 -->
-                        <circle cx="80" cy="22" r="11" fill="#FF6B35"/>
-                        <!-- 拍线网格 -->
-                        <line x1="80" y1="15" x2="80" y2="29" stroke="#fff" stroke-width="0.8" opacity="0.5"/>
-                        <line x1="73" y1="22" x2="87" y2="22" stroke="#fff" stroke-width="0.8" opacity="0.5"/>
-                        <line x1="75" y1="17" x2="85" y2="27" stroke="#fff" stroke-width="0.8" opacity="0.3"/>
-                        <line x1="85" y1="17" x2="75" y2="27" stroke="#fff" stroke-width="0.8" opacity="0.3"/>
-                        <!-- 拍柄 -->
-                        <rect x="78" y="30" width="4" height="10" rx="1.5" fill="#FF6B35"/>
-                        <!-- 网球 -->
-                        <circle cx="68" cy="35" r="4" fill="#FF6B35"/>
-                        <path d="M66 33 Q68 35 70 33" stroke="#fff" stroke-width="0.8" fill="none" opacity="0.6"/>
-                    </g>
-                </svg>
                 <h1>Agent 指挥中心</h1>
             </div>
-            <div class="header-subtitle">实时监控 · 智能调度 · 数据可视化</div>
-            <div class="status">
+            <div class="header-subtitle" style="margin-top: 16px;">实时监控 · 智能调度 · 数据可视化</div>
+            <div class="status" style="margin-top: 28px;">
                 <div class="status-left">
                     <span class="status-dot"></span>
                     <span id="runtime">运行中</span>
@@ -1380,44 +813,8 @@
         <div class="commander-section">
             <div class="commander-card">
                 <div class="commander-avatar">
-                    <svg viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg" class="floating">
-                        <!-- 龙虾图标 (左侧) -->
-                        <g class="lobster-icon">
-                            <!-- 身体 -->
-                            <ellipse cx="30" cy="35" rx="18" ry="12" fill="#FF6B35"/>
-                            <ellipse cx="30" cy="33" rx="14" ry="9" fill="#FF8C5A"/>
-                            <!-- 头部 -->
-                            <circle cx="30" cy="22" r="10" fill="#FF6B35"/>
-                            <!-- 眼睛 -->
-                            <circle cx="26" cy="20" r="3" fill="#fff"/>
-                            <circle cx="34" cy="20" r="3" fill="#fff"/>
-                            <circle cx="26" cy="20" r="1.5" fill="#1a1a2e"/>
-                            <circle cx="34" cy="20" r="1.5" fill="#1a1a2e"/>
-                            <!-- 触角 -->
-                            <path d="M27 14 Q25 8 23 6" stroke="#FF6B35" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-                            <path d="M33 14 Q35 8 37 6" stroke="#FF6B35" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-                            <circle cx="23" cy="6" r="1.5" fill="#FF6B35"/>
-                            <circle cx="37" cy="6" r="1.5" fill="#FF6B35"/>
-                            <!-- 钳子 -->
-                            <ellipse cx="16" cy="35" rx="6" ry="5" fill="#FF6B35"/>
-                            <ellipse cx="44" cy="35" rx="6" ry="5" fill="#FF6B35"/>
-                            <!-- 尾巴 -->
-                            <path d="M30 47 L25 54 L30 51 L35 54 Z" fill="#FF6B35"/>
-                        </g>
-                        
-                        <!-- 网球拍图标 (右侧) -->
-                        <g class="tennis-icon">
-                            <!-- 拍面 -->
-                            <circle cx="95" cy="28" r="14" fill="#C1E742" stroke="#fff" stroke-width="1.5"/>
-                            <!-- 拍线 -->
-                            <line x1="95" y1="20" x2="95" y2="36" stroke="#fff" stroke-width="0.8" opacity="0.6"/>
-                            <line x1="87" y1="28" x2="103" y2="28" stroke="#fff" stroke-width="0.8" opacity="0.6"/>
-                            <!-- 拍柄 -->
-                            <rect x="93" y="38" width="4" height="12" fill="#8B4513" rx="1.5"/>
-                            <!-- 网球 -->
-                            <circle cx="82" cy="45" r="4" fill="#C1E742" stroke="#fff" stroke-width="0.8"/>
-                        </g>
-                    </svg>
+                    <img src="https://chenchunmiao567-ops.github.io/Jump-miao/lobster-3d.png" alt="Jump Miao 龙虾网球手" class="commander-avatar-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"/>
+                    <div class="commander-avatar-placeholder" style="display:none; font-size:88px;">🦞🎾</div>
                 </div>
                 <div class="commander-name">Jump Miao</div>
                 <div class="commander-role">总指挥 · 龙虾网球手 · 你的专属 AI 伙伴</div>
@@ -1434,9 +831,7 @@
                 <span class="section-icon">🤖</span>
                 <h2 class="section-title">Agent 团队</h2>
             </div>
-            <div class="agents-grid" id="agents-grid">
-                <!-- 由 JavaScript 动态生成 -->
-            </div>
+            <div class="agents-grid" id="agents-grid"></div>
         </div>
 
         <!-- 任务列表 -->
@@ -1445,9 +840,7 @@
                 <span class="section-icon">📋</span>
                 <h2 class="section-title">进行中的任务</h2>
             </div>
-            <div class="tasks-section" id="tasks-section">
-                <!-- 由 JavaScript 动态生成 -->
-            </div>
+            <div class="tasks-section" id="tasks-section"></div>
         </div>
 
         <!-- 今日学习 -->
@@ -1456,43 +849,38 @@
                 <span class="section-icon">📚</span>
                 <h2 class="section-title">今日学习记录</h2>
             </div>
-            <div class="learning-section" id="learning-section">
-                <!-- 由 JavaScript 动态生成 -->
-            </div>
+            <div class="learning-section" id="learning-section"></div>
         </div>
 
-        <!-- 今日精华知识点 (新增) -->
+        <!-- 历史记录 -->
         <div class="section">
             <div class="section-header">
                 <span class="section-icon">✨</span>
-                <h2 class="section-title">今日精华知识点</h2>
+                <h2 class="section-title">历史精华知识点</h2>
             </div>
-            <div class="highlights-section" id="highlights-section">
-                <!-- 由 JavaScript 动态生成 -->
-            </div>
+            <div class="highlights-section" id="highlights-section"></div>
         </div>
 
         <!-- 能力库 -->
         <div class="section">
-            <div class="section-title">🛠️ 能力 & 资源</div>
+            <div class="section-header">
+                <span class="section-icon">🛠️</span>
+                <h2 class="section-title">能力 & 资源</h2>
+            </div>
             <div class="capabilities-grid">
                 <div class="capability-card">
                     <div class="capability-header">
                         <span>⚡</span>
                         <span>核心技能</span>
                     </div>
-                    <div class="capability-list" id="skills-list">
-                        <!-- 由 JavaScript 动态生成 -->
-                    </div>
+                    <div class="capability-list" id="skills-list"></div>
                 </div>
                 <div class="capability-card">
                     <div class="capability-header">
                         <span>📦</span>
                         <span>资源库</span>
                     </div>
-                    <div class="capability-list" id="resources-list">
-                        <!-- 由 JavaScript 动态生成 -->
-                    </div>
+                    <div class="capability-list" id="resources-list"></div>
                 </div>
             </div>
         </div>
@@ -1507,26 +895,19 @@
     <script>
         let dashboardData = null;
 
-        // 更新时间
         function updateTime() {
             const now = new Date();
             const timeStr = now.toLocaleTimeString('zh-CN', { hour12: false, hour: '2-digit', minute: '2-digit' });
             document.getElementById('last-update').textContent = timeStr;
         }
 
-        // 切换 Agent 详情
         function toggleAgentDetail(card) {
             const detail = card.querySelector('.agent-detail');
             if (detail) {
                 detail.classList.toggle('show');
-                const expandText = card.querySelector('.agent-header span:last-child');
-                if (expandText) {
-                    expandText.textContent = detail.classList.contains('show') ? '点击收起 ▲' : '点击展开 ▼';
-                }
             }
         }
 
-        // 切换任务详情
         function toggleTaskDetail(item) {
             const detail = item.querySelector('.task-detail');
             if (detail) {
@@ -1534,7 +915,6 @@
             }
         }
 
-        // 渲染 Agent 卡片
         function renderAgents(agents) {
             const grid = document.getElementById('agents-grid');
             grid.innerHTML = '';
@@ -1556,7 +936,6 @@
                     <div class="agent-header">
                         <span class="agent-icon">${agent.icon}</span>
                         <span class="agent-name">${agent.name}</span>
-                        <span style="margin-left: auto; font-size: 12px; color: var(--accent-blue-hover); font-weight: 500;">点击展开 ▼</span>
                     </div>
                     <div class="agent-status">${agent.status}</div>
                     <div class="progress-container">
@@ -1576,7 +955,6 @@
             });
         }
 
-        // 渲染任务列表
         function renderTasks(tasks) {
             const section = document.getElementById('tasks-section');
             section.innerHTML = `
@@ -1585,7 +963,7 @@
                         <div class="task-card" onclick="toggleTaskDetail(this)">
                             <div class="task-header">
                                 <span class="task-title">${task.title}</span>
-                                <span class="task-expand">点击展开详情 ›</span>
+                                <span class="task-expand">点击展开 ›</span>
                             </div>
                             <div class="task-desc">${task.desc}</div>
                             <div class="task-detail">${task.detail}</div>
@@ -1595,7 +973,6 @@
             `;
         }
 
-        // 渲染学习记录
         function renderLearning(learning) {
             const section = document.getElementById('learning-section');
             section.innerHTML = `
@@ -1616,11 +993,10 @@
             `;
         }
 
-        // 渲染今日精华
         function renderHighlights(highlights) {
             const section = document.getElementById('highlights-section');
             if (!highlights || highlights.length === 0) {
-                section.innerHTML = '<p style="color: var(--text-secondary); text-align: center; padding: var(--space-40);">今日精华正在整理中...</p>';
+                section.innerHTML = '<p style="color: var(--text-secondary); text-align: center; padding: var(--space-40);">暂无历史精华记录</p>';
                 return;
             }
             section.innerHTML = `
@@ -1640,7 +1016,6 @@
             `;
         }
 
-        // 渲染能力列表
         function renderCapabilities(capabilities) {
             const skillsList = document.getElementById('skills-list');
             const resourcesList = document.getElementById('resources-list');
@@ -1666,7 +1041,6 @@
             `).join('');
         }
 
-        // 刷新数据（从 JSON 文件读取）
         async function refreshData() {
             updateTime();
             
@@ -1674,11 +1048,9 @@
             btn.innerHTML = '<span class="loading"></span> 刷新中';
             
             try {
-                // 添加时间戳避免缓存
                 const response = await fetch('data.json?t=' + Date.now());
                 dashboardData = await response.json();
                 
-                // 渲染各个部分
                 renderAgents(dashboardData.agents);
                 renderTasks(dashboardData.tasks);
                 renderLearning(dashboardData.todayLearning);
@@ -1695,11 +1067,8 @@
             }, 500);
         }
 
-        // 初始化
         updateTime();
         refreshData();
-
-        // 每 30 秒自动刷新
         setInterval(refreshData, 30000);
     </script>
 </body>
