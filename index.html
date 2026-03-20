@@ -342,8 +342,6 @@
         }
         async function refreshData() {
             updateTime();
-            const btn = document.querySelector('.refresh-btn');
-            btn.innerHTML = '<span class="loading"></span> 刷新中';
             try {
                 const response = await fetch('data.json?t='+Date.now());
                 dashboardData = await response.json();
@@ -354,7 +352,6 @@
                 renderCapabilities(dashboardData.capabilities);
                 console.log('✅ 数据已更新:', dashboardData.lastUpdate);
             } catch(error) { console.error('❌ 加载数据失败:', error); }
-            setTimeout(() => { btn.innerHTML = '↻ 刷新'; }, 500);
         }
         updateTime();
         refreshData();
