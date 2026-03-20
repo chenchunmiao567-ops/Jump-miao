@@ -25,9 +25,10 @@
         .header-title h1 { font-size: 48px; font-weight: 700; background: linear-gradient(180deg,#FFFFFF 0%,#86868B 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.5px; margin: 0; }
         .header-subtitle { font-size: 17px; color: var(--text-secondary); margin-top: 16px; text-align: center; }
         
-        /* 呼吸状态线（无刷新按钮） */
+        /* 呼吸状态线（居中绿色） */
         .status-line-container { display: flex; justify-content: center; align-items: center; margin: var(--space-24) 0 var(--space-60); }
-        .status-line { width: 200px; height: 2px; background: linear-gradient(90deg, transparent, var(--status-green), transparent); border-radius: var(--radius-full); animation: status-line-pulse 3s infinite; }
+        .status-line { width: 200px; height: 2px; background: linear-gradient(90deg, transparent, var(--status-green), transparent); border-radius: var(--radius-full); animation: status-line-pulse-green 3s infinite; box-shadow: 0 0 12px var(--status-green); }
+        @keyframes status-line-pulse-green { 0%,100%{opacity:0.4;box-shadow:0 0 12px var(--status-green)} 50%{opacity:1;box-shadow:0 0 20px var(--status-green)} }
         .refresh-btn { display: none; }
         @keyframes status-line-pulse { 0%,100%{opacity:0.3;box-shadow:0 0 4px var(--status-green)} 50%{opacity:1;box-shadow:0 0 12px var(--status-green)} }
         .status-line.orange { background: linear-gradient(90deg, transparent, var(--status-orange), transparent); }
@@ -59,15 +60,19 @@
         .agent-card:hover { transform: translateY(-4px); border-color: var(--border-highlight); box-shadow: 0 12px 40px rgba(41,151,255,0.2); }
         .agent-card-content { position: relative; z-index: 1; }
         .agent-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: var(--space-16); }
-        .agent-name-group { display: flex; align-items: center; gap: var(--space-12); }
+        .agent-name-group { display: flex; align-items: center; gap: var(--space-12); flex: 1; }
         .agent-icon { font-size: 36px; }
         .agent-name { font-size: 18px; font-weight: 600; }
         .agent-status { font-size: 13px; color: var(--text-secondary); margin-bottom: var(--space-20); line-height: 1.5; min-height: 40px; }
+        .agent-right-group { display: flex; align-items: center; gap: var(--space-8); }
         .agent-status-lights { display: flex; gap: var(--space-6); }
         .status-light { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: all var(--duration-fast); }
         .status-light.active { background: var(--status-green); box-shadow: 0 0 8px var(--status-green); }
         .status-light.orange { background: var(--status-orange); box-shadow: 0 0 8px var(--status-orange); }
         .status-light.red { background: var(--status-red); box-shadow: 0 0 8px var(--status-red); }
+        .agent-lobster-badge { width: 24px; height: 24px; overflow: hidden; border-radius: 50%; background: rgba(0,0,0,0.3); flex-shrink: 0; }
+        .agent-lobster-badge::before { content: '🦞'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 16px; z-index: 2; }
+        .agent-lobster-badge::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: var(--water-level); background: linear-gradient(180deg, var(--breath-color), transparent); animation: water-flow 3s infinite; z-index: 1; }
         .progress-container { margin-top: var(--space-20); }
         .progress-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary); margin-bottom: var(--space-8); }
         .progress-value { color: var(--accent-blue-hover); font-weight: 600; }
@@ -88,16 +93,18 @@
         .detail-label { color: var(--text-secondary); padding-right: var(--space-24); }
         .detail-value { color: var(--text-primary); text-align: right; white-space: nowrap; }
         
-        /* 任务卡片 - 流光效果 */
+        /* 任务卡片 - 蓝色呼吸 + 扫光效果 */
         .tasks-section { background: linear-gradient(180deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-32); position: relative; overflow: hidden; }
-        .tasks-section::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(41,151,255,0.03) 0%, transparent 70%); animation: section-glow 5s infinite; pointer-events: none; }
+        .tasks-section::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(41,151,255,0.05) 0%, transparent 70%); animation: section-glow 5s infinite; pointer-events: none; }
         @keyframes section-glow { 0%,100%{opacity:0.3;transform:translate(0,0)} 50%{opacity:0.6;transform:translate(-10px,-10px)} }
         .tasks-grid { display: flex; flex-direction: column; gap: var(--space-20); }
         .task-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: var(--space-24); cursor: pointer; transition: all var(--duration-slow) var(--ease-apple); position: relative; overflow: hidden; }
         .task-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, var(--accent-blue), transparent); animation: task-shine 4s infinite; }
         @keyframes task-shine { 0%{left:-100%} 50%,100%{left:100%} }
         .task-card:hover { background: rgba(255,255,255,0.03); border-color: var(--border-highlight); }
-        .task-card:hover::before { animation-duration: 2s; }
+        .task-card:hover::before { animation-duration: 1s; }
+        .task-card::after { content: ''; position: absolute; inset: 0; border-radius: var(--radius-lg); background: radial-gradient(circle at center, rgba(41,151,255,0.08) 0%, transparent 70%); opacity: 0; animation: task-breath 3s infinite; pointer-events: none; }
+        @keyframes task-breath { 0%,100%{opacity:0.3} 50%{opacity:0.6} }
         .task-card.active { border-color: var(--accent-blue); box-shadow: 0 0 0 1px rgba(41,151,255,0.3), 0 8px 24px rgba(41,151,255,0.2); }
         .task-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-12); }
         .task-title { font-size: 18px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -106,10 +113,13 @@
         .task-detail { display: none; padding: var(--space-20); background: rgba(255,255,255,0.02); border-radius: var(--radius-lg); font-size: 13px; color: var(--text-secondary); white-space: pre-line; line-height: 1.6; margin-top: var(--space-16); border: 1px solid rgba(41,151,255,0.1); animation: slideDown var(--duration-normal) var(--ease-apple); }
         .task-detail.show { display: block; }
         
-        /* 学习记录 */
-        .learning-section { background: linear-gradient(180deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-36) var(--space-40); }
+        /* 学习记录 - 呼吸光效 */
+        .learning-section { background: linear-gradient(180deg,var(--bg-secondary) 0%,var(--bg-tertiary) 100%); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: var(--space-36) var(--space-40); position: relative; overflow: hidden; }
+        .learning-section::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(41,151,255,0.04) 0%, transparent 70%); animation: section-glow 4s infinite; pointer-events: none; }
         .learning-list { display: flex; flex-direction: column; gap: var(--space-20); }
-        .learning-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: var(--space-24); transition: all var(--duration-normal) var(--ease-apple); }
+        .learning-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: var(--space-24); transition: all var(--duration-normal) var(--ease-apple); position: relative; overflow: hidden; }
+        .learning-card::after { content: ''; position: absolute; inset: 0; border-radius: var(--radius-lg); background: radial-gradient(circle at center, rgba(41,151,255,0.06) 0%, transparent 70%); opacity: 0; animation: card-breath 3s infinite; pointer-events: none; }
+        @keyframes card-breath { 0%,100%{opacity:0.3} 50%{opacity:0.6} }
         .learning-card:hover { background: rgba(255,255,255,0.03); border-color: var(--border-highlight); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(41,151,255,0.15); }
         .learning-item { display: flex; gap: var(--space-16); }
         .learning-time { font-size: 13px; color: var(--accent-blue-hover); min-width: 50px; font-family: "SF Mono",monospace; }
@@ -125,7 +135,7 @@
         .highlight-card:hover { background: rgba(255,255,255,0.03); border-color: var(--border-highlight); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(41,151,255,0.2); }
         .highlight-header { display: flex; align-items: center; gap: var(--space-12); margin-bottom: var(--space-20); }
         .highlight-icon { font-size: 28px; }
-        .highlight-title { font-size: 16px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .highlight-title { font-size: 16px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
         .highlight-source { font-size: 11px; color: var(--text-secondary); margin-left: auto; text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
         .highlight-content { font-size: 14px; line-height: 1.6; margin-bottom: var(--space-20); padding: var(--space-20); background: linear-gradient(135deg,rgba(41,151,255,0.08) 0%,rgba(41,151,255,0.03) 100%); border-radius: var(--radius-lg); border-left: 4px solid var(--accent-blue); }
         .highlight-action { display: flex; align-items: flex-start; gap: var(--space-8); font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
@@ -256,7 +266,7 @@
                 card.style.setProperty('--water-level', waterLevel);
                 
                 const detailsHtml = Object.entries(agent.details).map(([key,value]) => `<div class="detail-item"><span class="detail-label">${key}</span><span class="detail-value">${value}</span></div>`).join('');
-                card.innerHTML = `<div class="agent-lobster-badge ${lobsterClass}"></div><div class="agent-card-content"><div class="agent-header"><div class="agent-name-group"><span class="agent-icon">${agent.icon}</span><span class="agent-name">${agent.name}</span></div><div class="agent-status-lights">${lightsHtml}</div></div><div class="agent-status">${agent.status}</div><div class="progress-container"><div class="progress-label"><span>进度</span><span class="progress-value">${agent.progress}%</span></div><div class="progress-bar"><div class="progress-fill" style="width:${agent.progress}%"></div></div></div><div class="agent-detail">${detailsHtml}</div></div>`;
+                card.innerHTML = `<div class="agent-card-content"><div class="agent-header"><div class="agent-name-group"><span class="agent-icon">${agent.icon}</span><span class="agent-name">${agent.name}</span></div><div class="agent-right-group"><div class="agent-status-lights">${lightsHtml}</div><div class="agent-lobster-badge ${lobsterClass}"></div></div></div><div class="agent-status">${agent.status}</div><div class="progress-container"><div class="progress-label"><span>进度</span><span class="progress-value">${agent.progress}%</span></div><div class="progress-bar"><div class="progress-fill" style="width:${agent.progress}%"></div></div></div><div class="agent-detail">${detailsHtml}</div></div>`;
                 grid.appendChild(card);
             });
         }
